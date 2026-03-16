@@ -1,35 +1,41 @@
 aid: huuray
+name: Huuray
+description: >-
+  Huuray is a global gift card API platform that enables businesses to offer
+  gift card buying and redemption without leaving their website. The platform
+  allows businesses to quickly and easily send gifts without having to manage
+  multiple accounts.
 url: >-
   https://raw.githubusercontent.com/api-evangelist/huuray/refs/heads/main/apis.yml
-apis:
-  - aid: huuray:huuray
-    name: Huuray
-    tags:
-      - API
-    humanURL: ' https://huuray.com/solutions/developers-gift-card-api/'
-    properties:
-      - url: ' https://huuray.com/solutions/developers-gift-card-api/'
-        type: Documentation
-    description: >-
-      Open up a whole new world of possibilities for your business. With Huuray,
-      you can now offer your customers the convenience of buying and redeeming
-      gift cards without ever leaving your website. We allow businesses to
-      quickly and easily give gifts without having to manage multiple accounts. 
-name: Huuray
-tags:
-  - Gift Cards
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-access: 3rd-Party
+tags:
+  - Gift Cards
+  - Rewards
+  - Payments
+  - E-Commerce
 created: '2025-02-08'
-modified: '2025-02-09'
-position: Consumer
-description: >-
-  Open up a whole new world of possibilities for your business. With Huuray, you
-  can now offer your customers the convenience of buying and redeeming gift
-  cards without ever leaving your website. We allow businesses to quickly and
-  easily give gifts without having to manage multiple accounts. 
+modified: '2026-03-16'
+specificationVersion: '0.19'
+apis:
+  - aid: huuray:huuray-api
+    name: Huuray Gift Card API
+    description: >-
+      The Huuray API enables businesses to offer global gift card purchasing
+      and redemption services, providing access to hundreds of gift card
+      brands worldwide through a single integration.
+    humanURL: https://huuray.com/solutions/developers-gift-card-api/
+    tags:
+      - Gift Cards
+      - Rewards
+    properties:
+      - type: Documentation
+        url: https://huuray.com/solutions/developers-gift-card-api/
+common:
+  - type: Website
+    url: https://huuray.com/
+  - type: Documentation
+    url: https://huuray.com/solutions/developers-gift-card-api/
 maintainers:
   - FN: Kin Lane
-    email: info@apievangelist.com
-specificationVersion: '0.19'
+    email: kin@apievangelist.com
