@@ -1,0 +1,449 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Huuray API
+  description: Huuray API for B2B customers (last updated april 2025)
+  tags:
+  - Huuray
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: huuray
+    baseUri: https://api.example.com
+    description: Huuray API HTTP API.
+    authentication:
+      type: apikey
+      in: header
+      name: X-API-TOKEN
+      value: '{{HUURAY_TOKEN}}'
+    resources:
+    - name: v4-balance
+      path: /v4/Balance
+      operations:
+      - name: get-v4-balance
+        method: GET
+        description: Used to get available balances
+        inputParameters:
+        - name: X-API-NONCE
+          in: header
+          type: string
+          required: true
+          description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents
+            your message from being re-transmitted, and thereby also
+        - name: X-API-HASH
+          in: header
+          type: string
+          required: true
+          description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this
+            is used to authenticate you)</small>'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v4-cancel
+      path: /v4/Cancel
+      operations:
+      - name: delete-v4-cancel
+        method: DELETE
+        description: Used to Cancel Orders or Giftcards
+        inputParameters:
+        - name: X-API-NONCE
+          in: header
+          type: string
+          required: true
+          description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents
+            your message from being re-transmitted, and thereby also
+        - name: X-API-HASH
+          in: header
+          type: string
+          required: true
+          description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this
+            is used to authenticate you)</small>'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v4-catalogue
+      path: /v4/Catalogue
+      operations:
+      - name: post-v4-catalogue
+        method: POST
+        description: Used to get a list of the available products
+        inputParameters:
+        - name: X-API-NONCE
+          in: header
+          type: string
+          required: true
+          description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents
+            your message from being re-transmitted, and thereby also
+        - name: X-API-HASH
+          in: header
+          type: string
+          required: true
+          description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this
+            is used to authenticate you)</small>'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v4-exchangerates
+      path: /v4/ExchangeRates
+      operations:
+      - name: get-v4-exchangerates
+        method: GET
+        description: Used to retrieve current exchange rate data
+        inputParameters:
+        - name: FromCurrency
+          in: query
+          type: string
+        - name: ToCurrency
+          in: query
+          type: string
+        - name: X-API-NONCE
+          in: header
+          type: string
+          required: true
+          description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents
+            your message from being re-transmitted, and thereby also
+        - name: X-API-HASH
+          in: header
+          type: string
+          required: true
+          description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this
+            is used to authenticate you)</small>'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v4-order
+      path: /v4/Order
+      operations:
+      - name: post-v4-order
+        method: POST
+        description: Used to order giftcards
+        inputParameters:
+        - name: X-API-NONCE
+          in: header
+          type: string
+          required: true
+          description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents
+            your message from being re-transmitted, and thereby also
+        - name: X-API-HASH
+          in: header
+          type: string
+          required: true
+          description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this
+            is used to authenticate you)</small>'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v4-resend
+      path: /v4/Resend
+      operations:
+      - name: post-v4-resend
+        method: POST
+        description: Used to Resend Orders or Giftcards
+        inputParameters:
+        - name: X-API-NONCE
+          in: header
+          type: string
+          required: true
+          description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents
+            your message from being re-transmitted, and thereby also
+        - name: X-API-HASH
+          in: header
+          type: string
+          required: true
+          description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this
+            is used to authenticate you)</small>'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v4-search
+      path: /v4/Search
+      operations:
+      - name: post-v4-search
+        method: POST
+        description: Used to search through giftcards from previous orders
+        inputParameters:
+        - name: X-API-NONCE
+          in: header
+          type: string
+          required: true
+          description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents
+            your message from being re-transmitted, and thereby also
+        - name: X-API-HASH
+          in: header
+          type: string
+          required: true
+          description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this
+            is used to authenticate you)</small>'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v4-stock
+      path: /v4/Stock
+      operations:
+      - name: post-v4-stock
+        method: POST
+        description: Used to check the current stock of a product
+        inputParameters:
+        - name: X-API-NONCE
+          in: header
+          type: string
+          required: true
+          description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents
+            your message from being re-transmitted, and thereby also
+        - name: X-API-HASH
+          in: header
+          type: string
+          required: true
+          description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this
+            is used to authenticate you)</small>'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v4-template
+      path: /v4/Template
+      operations:
+      - name: post-v4-template
+        method: POST
+        description: Used to get a list of the available templates
+        inputParameters:
+        - name: X-API-NONCE
+          in: header
+          type: string
+          required: true
+          description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents
+            your message from being re-transmitted, and thereby also
+        - name: X-API-HASH
+          in: header
+          type: string
+          required: true
+          description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this
+            is used to authenticate you)</small>'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: huuray-rest
+    description: REST adapter for Huuray API.
+    resources:
+    - path: /v4/Balance
+      name: get-v4-balance
+      operations:
+      - method: GET
+        name: get-v4-balance
+        description: Used to get available balances
+        call: huuray.get-v4-balance
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v4/Cancel
+      name: delete-v4-cancel
+      operations:
+      - method: DELETE
+        name: delete-v4-cancel
+        description: Used to Cancel Orders or Giftcards
+        call: huuray.delete-v4-cancel
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v4/Catalogue
+      name: post-v4-catalogue
+      operations:
+      - method: POST
+        name: post-v4-catalogue
+        description: Used to get a list of the available products
+        call: huuray.post-v4-catalogue
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v4/ExchangeRates
+      name: get-v4-exchangerates
+      operations:
+      - method: GET
+        name: get-v4-exchangerates
+        description: Used to retrieve current exchange rate data
+        call: huuray.get-v4-exchangerates
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v4/Order
+      name: post-v4-order
+      operations:
+      - method: POST
+        name: post-v4-order
+        description: Used to order giftcards
+        call: huuray.post-v4-order
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v4/Resend
+      name: post-v4-resend
+      operations:
+      - method: POST
+        name: post-v4-resend
+        description: Used to Resend Orders or Giftcards
+        call: huuray.post-v4-resend
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v4/Search
+      name: post-v4-search
+      operations:
+      - method: POST
+        name: post-v4-search
+        description: Used to search through giftcards from previous orders
+        call: huuray.post-v4-search
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v4/Stock
+      name: post-v4-stock
+      operations:
+      - method: POST
+        name: post-v4-stock
+        description: Used to check the current stock of a product
+        call: huuray.post-v4-stock
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v4/Template
+      name: post-v4-template
+      operations:
+      - method: POST
+        name: post-v4-template
+        description: Used to get a list of the available templates
+        call: huuray.post-v4-template
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: huuray-mcp
+    transport: http
+    description: MCP adapter for Huuray API for AI agent use.
+    tools:
+    - name: get-v4-balance
+      description: Used to get available balances
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: huuray.get-v4-balance
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-v4-cancel
+      description: Used to Cancel Orders or Giftcards
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: huuray.delete-v4-cancel
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: post-v4-catalogue
+      description: Used to get a list of the available products
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: huuray.post-v4-catalogue
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-v4-exchangerates
+      description: Used to retrieve current exchange rate data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: huuray.get-v4-exchangerates
+      with:
+        FromCurrency: tools.FromCurrency
+        ToCurrency: tools.ToCurrency
+      inputParameters:
+      - name: FromCurrency
+        type: string
+        description: FromCurrency
+      - name: ToCurrency
+        type: string
+        description: ToCurrency
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: post-v4-order
+      description: Used to order giftcards
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: huuray.post-v4-order
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: post-v4-resend
+      description: Used to Resend Orders or Giftcards
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: huuray.post-v4-resend
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: post-v4-search
+      description: Used to search through giftcards from previous orders
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: huuray.post-v4-search
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: post-v4-stock
+      description: Used to check the current stock of a product
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: huuray.post-v4-stock
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: post-v4-template
+      description: Used to get a list of the available templates
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: huuray.post-v4-template
+      outputParameters:
+      - type: object
+        mapping: $.
+binds:
+- namespace: env
+  keys:
+    HUURAY_TOKEN: HUURAY_TOKEN
