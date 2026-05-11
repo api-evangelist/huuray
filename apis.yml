@@ -45,6 +45,109 @@ common:
     url: https://huuray.com/solutions/developers-gift-card-api/
   - type: SwaggerUI
     url: https://api.huuray.com/swagger/index.html
+  - type: Integrations
+    url: https://huuray.com/integrations/
+integrations:
+  - name: 17hats
+  - name: 123FormBuilder
+  - name: 2Chat
+  - name: 97Display
+  - name: 46elks
+  - name: 4Degrees
+  - name: 7shifts
+  - name: 10,000ft
+  - name: 100Hires ATS
+  - name: 24sessions
+  - name: 4Dem.it
+  - name: 8×8
+  - name: 1CRM
+  - name: 3Scribe
+  - name: Airtable
+  - name: Asana
+  - name: ActiveCampaign
+  - name: Anthropic (Claude)
+  - name: Apollo
+  - name: AgencyZoom
+  - name: Amazon S3
+  - name: Adalo
+  - name: Brevo
+  - name: Buffer
+  - name: Bark
+  - name: BambooHR
+  - name: Box
+  - name: Bitrix24 CRM
+  - name: Bitly
+  - name: Bubble
+  - name: Bonjoro
+  - name: BigCommerce
+  - name: Code by Zapier
+  - name: Calendly
+  - name: ChatGPT (OpenAI)
+  - name: ClickUp
+  - name: Circle
+  - name: Chatwork
+  - name: Clio
+  - name: ClickFunnels
+  - name: Discord
+  - name: Digest by Zapier
+  - name: Digistore24
+  - name: Drip
+  - name: Daylite
+  - name: Microsoft Excel
+  - name: eBay
+  - name: Elfsight
+  - name: EZ Texting
+  - name: Encharge
+  - name: Facebook Lead Ads
+  - name: Firebase / Firestore
+  - name: Google Sheets
+  - name: Gmail
+  - name: Google Drive
+  - name: Google Forms
+  - name: Gravity Forms
+  - name: GetResponse
+  - name: HubSpot
+  - name: Hatch
+  - name: Hibob
+  - name: Instagram for Business
+  - name: Intercom
+  - name: Instapage
+  - name: Iterable
+  - name: Invoice Ninja
+  - name: Jira Software Cloud
+  - name: JustCall
+  - name: Klaviyo
+  - name: Ko-fi
+  - name: LeadConnector
+  - name: LinkedIn Ads
+  - name: Leadpages
+  - name: Mailchimp
+  - name: Microsoft Outlook
+  - name: monday.com
+  - name: Microsoft Teams
+  - name: Microsoft To Do
+  - name: Mighty Networks
+  - name: Microsoft Dynamics 365 CRM
+  - name: Marketo
+  - name: Mailchimp Transactional
+  - name: Notion
+  - name: Netlify
+  - name: Ninja Forms
+  - name: Nutshell
+  - name: Ninox
+  - name: Nifty
+  - name: Nimble
+  - name: Microsoft Office 365
+  - name: Odoo CRM
+  - name: Odoo ERP Self Hosted
+  - name: OptinMonster
+  - name: Pipedrive
+  - name: PayPal
+  - name: Qualtrics
+  - name: QRTIGER QR Code
+  - name: Razorpay
+  - name: Real Geeks
+  - name: Slack
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
