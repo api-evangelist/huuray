@@ -1,0 +1,98 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Huuray API — Cancel
+  description: 'Huuray API — Cancel. 1 operations. Lead operation: Used to Cancel Orders or Giftcards. Self-contained Naftiko
+    capability covering one Huuray business surface.'
+  tags:
+  - Huuray
+  - Cancel
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUURAY_API_KEY: HUURAY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: huuray-cancel
+    baseUri: ''
+    description: Huuray API — Cancel business capability. Self-contained, no shared references.
+    resources:
+    - name: v4-Cancel
+      path: /v4/Cancel
+      operations:
+      - name: delete
+        method: DELETE
+        description: Used to Cancel Orders or Giftcards
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-API-NONCE
+          in: header
+          type: string
+          description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents
+            your message from being re-transmitted, and thereby also
+          required: true
+        - name: X-API-HASH
+          in: header
+          type: string
+          description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this
+            is used to authenticate you)</small>'
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-TOKEN
+      value: '{{env.HUURAY_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: huuray-cancel-rest
+    port: 8080
+    description: REST adapter for Huuray API — Cancel. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/v4/cancel
+      name: v4-cancel
+      description: REST surface for v4-Cancel.
+      operations:
+      - method: DELETE
+        name: delete
+        description: Used to Cancel Orders or Giftcards
+        call: huuray-cancel.delete
+        with:
+          X-API-NONCE: rest.X-API-NONCE
+          X-API-HASH: rest.X-API-HASH
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: huuray-cancel-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Huuray API — Cancel. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: used-cancel-orders-giftcards
+      description: Used to Cancel Orders or Giftcards
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: huuray-cancel.delete
+      with:
+        X-API-NONCE: tools.X-API-NONCE
+        X-API-HASH: tools.X-API-HASH
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

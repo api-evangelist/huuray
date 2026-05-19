@@ -1,0 +1,91 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Huuray API — Balance
+  description: 'Huuray API — Balance. 1 operations. Lead operation: Used to get available balances. Self-contained Naftiko
+    capability covering one Huuray business surface.'
+  tags:
+  - Huuray
+  - Balance
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUURAY_API_KEY: HUURAY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: huuray-balance
+    baseUri: ''
+    description: Huuray API — Balance business capability. Self-contained, no shared references.
+    resources:
+    - name: v4-Balance
+      path: /v4/Balance
+      operations:
+      - name: get
+        method: GET
+        description: Used to get available balances
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-API-NONCE
+          in: header
+          type: string
+          description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents
+            your message from being re-transmitted, and thereby also
+          required: true
+        - name: X-API-HASH
+          in: header
+          type: string
+          description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this
+            is used to authenticate you)</small>'
+          required: true
+    authentication:
+      type: apikey
+      key: X-API-TOKEN
+      value: '{{env.HUURAY_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: huuray-balance-rest
+    port: 8080
+    description: REST adapter for Huuray API — Balance. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/v4/balance
+      name: v4-balance
+      description: REST surface for v4-Balance.
+      operations:
+      - method: GET
+        name: get
+        description: Used to get available balances
+        call: huuray-balance.get
+        with:
+          X-API-NONCE: rest.X-API-NONCE
+          X-API-HASH: rest.X-API-HASH
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: huuray-balance-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Huuray API — Balance. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: used-get-available-balances
+      description: Used to get available balances
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: huuray-balance.get
+      with:
+        X-API-NONCE: tools.X-API-NONCE
+        X-API-HASH: tools.X-API-HASH
+      outputParameters:
+      - type: object
+        mapping: $.
