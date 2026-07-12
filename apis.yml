@@ -36,6 +36,10 @@ apis:
       - type: OpenAPI
         url: openapi/huuray-openapi.yml
 common:
+  - type: DomainSecurity
+    url: security/huuray-domain-security.yml
+  - type: Authentication
+    url: authentication/huuray-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/huuray-
   - type: Website
@@ -46,6 +50,8 @@ common:
     url: https://api.huuray.com/swagger/index.html
   - type: Integrations
     url: https://huuray.com/integrations/
+  - url: https://huuray.com/inspiration/
+    type: Blog
 integrations:
   - name: 17hats
   - name: 123FormBuilder

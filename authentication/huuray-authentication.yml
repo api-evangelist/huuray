@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/huuray-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiToken
+  type: apiKey
+  in: header
+  parameter: X-API-TOKEN
+  description: The API-Token provided to you by Huuray.
+  sources:
+  - openapi/huuray-openapi.yml
