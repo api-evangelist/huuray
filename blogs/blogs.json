@@ -1,0 +1,14 @@
+{
+  "repo": "huuray",
+  "feeds": [
+    {
+      "source": "https://huuray.com/inspiration/",
+      "feed_url": "https://huuray.com/inspiration/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    }
+  ],
+  "fetched": "2026-07-11T11:50:51Z",
+  "post_count": 12
+}
