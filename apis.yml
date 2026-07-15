@@ -36,6 +36,8 @@ apis:
       - type: OpenAPI
         url: openapi/huuray-openapi.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/huuray-agentic-access.yml
   - type: DomainSecurity
     url: security/huuray-domain-security.yml
   - type: Authentication
