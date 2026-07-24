@@ -1,0 +1,193 @@
+openapi: 3.0.1
+info:
+  title: Huuray Balance Catalogue API
+  description: Huuray API for B2B customers (last updated april 2025)
+  contact:
+    name: Support
+    email: tech@huuray.com
+  version: v4
+tags:
+- name: Catalogue
+paths:
+  /v4/Catalogue:
+    post:
+      tags:
+      - Catalogue
+      summary: Used to get a list of the available products
+      description: The list will include both texts and images. It will also include your currently available discount if "All" is set to "False"
+      parameters:
+      - name: X-API-NONCE
+        in: header
+        description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>
+        required: true
+      - name: X-API-HASH
+        in: header
+        description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogueRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogueResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - ApiToken: []
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The minimal possible response for any request
+    CatalogueRequest:
+      title: Product Catalogue Request
+      type: object
+      properties:
+        All:
+          type: boolean
+          description: Set this option to 'true' to fetch the entire product catalog; 'false' to limit the search to the products that your account has access to
+          nullable: true
+      additionalProperties: false
+      description: An object containing the required input for the product catalogue API
+    CatalogueProduct:
+      title: Product (Catalogue)
+      type: object
+      properties:
+        ProductToken:
+          type: string
+          description: Unique product ID<br />Only part of the response if the 'all' request-parameter is 'false'
+          nullable: true
+        BrandName:
+          type: string
+          description: Products brand name
+          nullable: true
+        Country:
+          type: string
+          description: Country name
+          nullable: true
+        CountryCode:
+          type: string
+          description: Country IsoAlpha2 code
+          nullable: true
+        Discount:
+          type: number
+          description: Discount in percent
+          format: decimal(5,2)
+          nullable: true
+        Denominations:
+          type: string
+          description: Product denominations separated by commas
+          nullable: true
+        Currency:
+          type: string
+          description: Currency IsoAlpha3 code
+          nullable: true
+        RealTimeStock:
+          type: string
+          description: Real-time or Stock
+          nullable: true
+        Categories:
+          type: string
+          description: Product categories separated by commas
+          nullable: true
+        LanguageCode:
+          type: string
+          description: Language IsoAlpha2 code
+          nullable: true
+        Active:
+          type: boolean
+          description: Active status
+        BrandDescription:
+          type: string
+          description: Brand description in original language
+          nullable: true
+        RedemptionInstructions:
+          type: string
+          description: Redemption instructions in original language
+          nullable: true
+        LogoFile:
+          type: string
+          description: Logo file url
+          nullable: true
+      additionalProperties: false
+      description: An object containing information about product
+    CatalogueResponse:
+      title: Product Catalogue Response
+      type: object
+      properties:
+        Products:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogueProduct'
+          description: The list of products
+          nullable: true
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The response containing products
+  securitySchemes:
+    ApiToken:
+      type: apiKey
+      description: The API-Token provided to you by Huuray.
+      name: X-API-TOKEN
+      in: header

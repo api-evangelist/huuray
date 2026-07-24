@@ -1,0 +1,127 @@
+openapi: 3.0.1
+info:
+  title: Huuray Balance API
+  description: Huuray API for B2B customers (last updated april 2025)
+  contact:
+    name: Support
+    email: tech@huuray.com
+  version: v4
+tags:
+- name: Balance
+paths:
+  /v4/Balance:
+    get:
+      tags:
+      - Balance
+      summary: Used to get available balances
+      description: The amount of available balances on the B2B account in minor units with currency
+      parameters:
+      - name: X-API-NONCE
+        in: header
+        description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>
+        required: true
+      - name: X-API-HASH
+        in: header
+        description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - ApiToken: []
+components:
+  schemas:
+    BalanceItem:
+      title: Balance Item
+      type: object
+      properties:
+        Currency:
+          type: string
+          description: The currency as ISO alpha-3 code
+          nullable: true
+        Balance:
+          type: integer
+          description: The available balance in minor units
+          format: int64
+        Master:
+          type: boolean
+          description: An option that shows whether the currency is a master currency
+      additionalProperties: false
+      description: An object containing information about available balance for currency
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The minimal possible response for any request
+    BalanceResponse:
+      title: Balance Response
+      type: object
+      properties:
+        Balances:
+          type: array
+          items:
+            $ref: '#/components/schemas/BalanceItem'
+          description: The list of balances
+          nullable: true
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The response containing available balances with currency
+  securitySchemes:
+    ApiToken:
+      type: apiKey
+      description: The API-Token provided to you by Huuray.
+      name: X-API-TOKEN
+      in: header

@@ -1,0 +1,234 @@
+openapi: 3.0.1
+info:
+  title: Huuray Balance Search API
+  description: Huuray API for B2B customers (last updated april 2025)
+  contact:
+    name: Support
+    email: tech@huuray.com
+  version: v4
+tags:
+- name: Search
+paths:
+  /v4/Search:
+    post:
+      tags:
+      - Search
+      summary: Used to search through giftcards from previous orders
+      description: n/a
+      parameters:
+      - name: X-API-NONCE
+        in: header
+        description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>
+        required: true
+      - name: X-API-HASH
+        in: header
+        description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - ApiToken: []
+components:
+  schemas:
+    SearchResponse:
+      title: Search Response
+      type: object
+      properties:
+        OrderUID:
+          type: string
+          description: The unique identifier of the matched order
+          nullable: true
+        RefID:
+          type: string
+          description: The internal reference to the corresponding order in your own system
+          nullable: true
+        Vouchers:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchVoucher'
+          description: The list of the matching vouchers
+          nullable: true
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The response from a search
+    SearchRecipient:
+      title: Recipient (Search)
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name of the recipient (either person or company)
+          nullable: true
+        Email:
+          type: string
+          description: The e-mail address of the recipient
+          nullable: true
+        Phone:
+          type: string
+          description: The phone number of the recipient
+          nullable: true
+        RefID:
+          type: string
+          description: The internal reference to an recipient in your own system
+          nullable: true
+      additionalProperties: false
+      description: An object containing information about a recipient
+    SearchRequest:
+      title: Search Request
+      type: object
+      properties:
+        OrderUID:
+          type: string
+          description: The unique identifier of the order
+          nullable: true
+        VoucherID:
+          type: integer
+          description: The unique identifier of the voucher (required to show code in output)
+          format: int32
+          nullable: true
+        ProductToken:
+          type: string
+          description: The token that identifies the product to be sent out
+          nullable: true
+        RefID:
+          type: string
+          description: The internal reference to an order in your own system
+          nullable: true
+        SMSTemplateID:
+          type: integer
+          description: The unique identifier of the SMS template (Required if sending via SMS)
+          format: int32
+          nullable: true
+        EmailTemplateID:
+          type: integer
+          description: The unique identifier of the e-mail template (Required if sending via e-mail)
+          format: int32
+          nullable: true
+        DeliveryDatetime:
+          type: string
+          description: The future date for delivery to take place
+          format: date-time
+          nullable: true
+        RecipientName:
+          type: string
+          description: The name of the recipient (either person or company)
+          nullable: true
+        RecipientEmail:
+          type: string
+          description: The e-mail address of the recipient (Required if sending via e-mail)
+          nullable: true
+        RecipientPhone:
+          type: string
+          description: The phone number of the recipient (Required if sending via SMS)
+          nullable: true
+        RecipientRefID:
+          type: string
+          description: The internal reference to an recipient in your own system
+          nullable: true
+      additionalProperties: false
+      description: An object containing all the informations you can search for
+    SearchVoucher:
+      title: Voucher (Search)
+      type: object
+      properties:
+        ID:
+          type: integer
+          description: The unique identifier of the voucher (required to show code in output)
+          format: int32
+          nullable: true
+        Code:
+          type: string
+          description: The redeemable code of the voucher
+          nullable: true
+        CVV:
+          type: string
+          description: A value used to verify the authenticity of the voucher (if applicable)
+          nullable: true
+        RedeemLink:
+          type: string
+          description: The URL to redeem the voucher
+          nullable: true
+        Expires:
+          type: string
+          description: The time and date for when the voucher expires
+          format: date-time
+        Recipient:
+          $ref: '#/components/schemas/SearchRecipient'
+      additionalProperties: false
+      description: An object containing information about a voucher
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The minimal possible response for any request
+  securitySchemes:
+    ApiToken:
+      type: apiKey
+      description: The API-Token provided to you by Huuray.
+      name: X-API-TOKEN
+      in: header

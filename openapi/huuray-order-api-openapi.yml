@@ -1,0 +1,268 @@
+openapi: 3.0.1
+info:
+  title: Huuray Balance Order API
+  description: Huuray API for B2B customers (last updated april 2025)
+  contact:
+    name: Support
+    email: tech@huuray.com
+  version: v4
+tags:
+- name: Order
+paths:
+  /v4/Order:
+    post:
+      tags:
+      - Order
+      summary: Used to order giftcards
+      description: The giftcards will be sent out as redeemable links. They will be sent out automatically via Email or SMS, or returned in a callback if you have set one up and enabled this feature
+      parameters:
+      - name: X-API-NONCE
+        in: header
+        description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>
+        required: true
+      - name: X-API-HASH
+        in: header
+        description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - ApiToken: []
+components:
+  schemas:
+    OrderProduct:
+      title: Product (Order)
+      required:
+      - Currency
+      - Quantity
+      - Token
+      - Value
+      type: object
+      properties:
+        Token:
+          minLength: 1
+          type: string
+          description: The token used to identify a specific product
+        Value:
+          type: integer
+          description: The value denomination that you want to order. Must be specified in minor units (i.e. $5.00 should be sent as 500)
+          format: int32
+        Currency:
+          minLength: 1
+          type: string
+          description: The currency of the product
+        Quantity:
+          type: integer
+          description: The amount of codes you are ordering
+          format: int32
+        Expires:
+          type: string
+          description: An optional time and date for the giftcards to expire. If omitted, the default expiration will be used, and the value cannot exceed the default expiration
+          format: date-time
+          nullable: true
+      additionalProperties: false
+      description: An object containing information about a product
+    OrderVoucher:
+      title: Voucher (Order)
+      type: object
+      properties:
+        ID:
+          type: integer
+          description: The unique identifier of the voucher (used by resend and cancel endpoints)
+          format: int32
+          nullable: true
+        Code:
+          type: string
+          description: The redeemable code of the voucher. (This will be blanked unless ReturnCode is enabled in your B2B Account)
+          nullable: true
+        CVV:
+          type: string
+          description: A value used to verify the authenticity of the voucher (if applicable). (This will be blanked unless ReturnCode is enabled in your B2B Account)
+          nullable: true
+        RedeemLink:
+          type: string
+          description: The URL to redeem the voucher. (This will be blanked unless ReturnCode is enabled in your B2B Account)
+          nullable: true
+        Expires:
+          type: string
+          description: The time and date for when the voucher expires
+          format: date-time
+        Recipient:
+          $ref: '#/components/schemas/OrderRecipient'
+      additionalProperties: false
+      description: An object containing information about a voucher
+    OrderRecipient:
+      title: Recipient (Order)
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name of the recipient
+          nullable: true
+        Email:
+          type: string
+          description: The email address of the recipient (required if DeliveryMethod is set to Email)
+          nullable: true
+        Phone:
+          type: string
+          description: The phone number of the recipient (required if DeliveryMethod is set to SMS)
+          nullable: true
+        RefID:
+          type: string
+          description: An optional ID that you can use to identify the individual recipient
+          nullable: true
+      additionalProperties: false
+      description: An object containing information about a single recipient
+    OrderRequest:
+      title: Order Request
+      required:
+      - Product
+      - Sync
+      type: object
+      properties:
+        Product:
+          $ref: '#/components/schemas/OrderProduct'
+        Sync:
+          type: boolean
+          description: Determines whether the Order is a sync order (If set to true, then quantity is limited to 25 and vouchers are returned in the response)
+        RefID:
+          type: string
+          description: An optional ID that you can use to identify the resulting order with
+          nullable: true
+        DeliveryTemplateId:
+          type: integer
+          description: The template used to deliver the codes (Email, SMS, or no delivery if null)
+          format: int32
+          nullable: true
+        DeliveryDatetime:
+          type: string
+          description: An optional future date for delivery to take place, if null delivery will happen as soon as possible
+          format: date-time
+          nullable: true
+        PersonalMessage:
+          type: string
+          description: An optional message to include in all the SMS/Emails (if applicable)
+          nullable: true
+        Recipients:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderRecipient'
+          description: A list of all the recipients. It is required unless DeliveryTemplateId is null. If specified, the count must be either 1 or match Product.Quantity
+          nullable: true
+      additionalProperties: false
+      description: An object containing all the necessary information for ordering giftcards
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The minimal possible response for any request
+    OrderResponse:
+      title: Order Response
+      type: object
+      properties:
+        OrderUID:
+          type: string
+          description: A unique ID which will be connected to the resulting order
+          nullable: true
+        RefID:
+          type: string
+          description: The optional ID that you specified in the order request
+          nullable: true
+        Vouchers:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderVoucher'
+          description: The resulting vouchers for the placed order (contain data only for Sync request)
+          nullable: true
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The response from the Order request
+  securitySchemes:
+    ApiToken:
+      type: apiKey
+      description: The API-Token provided to you by Huuray.
+      name: X-API-TOKEN
+      in: header

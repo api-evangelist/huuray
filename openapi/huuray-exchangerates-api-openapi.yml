@@ -1,0 +1,128 @@
+openapi: 3.0.1
+info:
+  title: Huuray Balance ExchangeRates API
+  description: Huuray API for B2B customers (last updated april 2025)
+  contact:
+    name: Support
+    email: tech@huuray.com
+  version: v4
+tags:
+- name: ExchangeRates
+paths:
+  /v4/ExchangeRates:
+    get:
+      tags:
+      - ExchangeRates
+      summary: Used to retrieve current exchange rate data
+      description: The exchange rate data consists of exchange rate and spread. The currency parameters must be ISO-3 currency codes.
+      parameters:
+      - name: FromCurrency
+        in: query
+        schema:
+          type: string
+      - name: ToCurrency
+        in: query
+        schema:
+          type: string
+      - name: X-API-NONCE
+        in: header
+        description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>
+        required: true
+      - name: X-API-HASH
+        in: header
+        description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangeRatesResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - ApiToken: []
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The minimal possible response for any request
+    ExchangeRatesResponse:
+      title: Exchange Rates Response
+      type: object
+      properties:
+        ExchangeRate:
+          type: number
+          description: Exchange rate
+          format: double
+          nullable: true
+        Spread:
+          type: integer
+          description: Spread in percentage
+          format: int32
+          nullable: true
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The response containing the exchange rate and spread
+  securitySchemes:
+    ApiToken:
+      type: apiKey
+      description: The API-Token provided to you by Huuray.
+      name: X-API-TOKEN
+      in: header

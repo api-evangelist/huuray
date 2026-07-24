@@ -1,0 +1,169 @@
+openapi: 3.0.1
+info:
+  title: Huuray Balance Cancel API
+  description: Huuray API for B2B customers (last updated april 2025)
+  contact:
+    name: Support
+    email: tech@huuray.com
+  version: v4
+tags:
+- name: Cancel
+paths:
+  /v4/Cancel:
+    delete:
+      tags:
+      - Cancel
+      summary: Used to Cancel Orders or Giftcards
+      description: n/a
+      parameters:
+      - name: X-API-NONCE
+        in: header
+        description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>
+        required: true
+      - name: X-API-HASH
+        in: header
+        description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>'
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelResponse'
+        '206':
+          description: Partial Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - ApiToken: []
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The minimal possible response for any request
+    CancelResponse:
+      title: Cancel Response
+      type: object
+      properties:
+        OrderUID:
+          type: string
+          description: The UID of the Order that was attempted to be cancelled
+          nullable: true
+        OrderCancelled:
+          type: boolean
+          description: An option that shows whether the Order was cancelled
+        Vouchers:
+          type: array
+          items:
+            $ref: '#/components/schemas/CancelVoucher'
+          description: A list of the individual Vouchers in the Order that was attempted to be cancelled
+          nullable: true
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The response from a Cancel request
+    CancelVoucher:
+      title: Voucher (Cancel)
+      type: object
+      properties:
+        ID:
+          type: integer
+          description: The ID of the Voucher that was attempted to be cancelled
+          format: int32
+        Cancelled:
+          type: boolean
+          description: An option that shows whether the Voucher was cancelled
+      additionalProperties: false
+      description: An object describing the outcome of an Voucher Cancel
+    CancelRequest:
+      title: Cancel Request
+      required:
+      - OrderUID
+      type: object
+      properties:
+        OrderUID:
+          type: string
+          description: The UID of the Order you want to Cancel from
+        VoucherID:
+          type: integer
+          description: The ID of the specific Voucher in the given Order that you want to Cancel. If null is given, we will attempt to Cancel the entire Order
+          format: int32
+          nullable: true
+      additionalProperties: false
+      description: An object containing all the necessary information for Canceling giftcards
+  securitySchemes:
+    ApiToken:
+      type: apiKey
+      description: The API-Token provided to you by Huuray.
+      name: X-API-TOKEN
+      in: header

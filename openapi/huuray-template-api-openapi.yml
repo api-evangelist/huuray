@@ -1,0 +1,154 @@
+openapi: 3.0.1
+info:
+  title: Huuray Balance Template API
+  description: Huuray API for B2B customers (last updated april 2025)
+  contact:
+    name: Support
+    email: tech@huuray.com
+  version: v4
+tags:
+- name: Template
+paths:
+  /v4/Template:
+    post:
+      tags:
+      - Template
+      summary: Used to get a list of the available templates
+      description: The list will include both texts and type
+      parameters:
+      - name: X-API-NONCE
+        in: header
+        description: A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>
+        required: true
+      - name: X-API-HASH
+        in: header
+        description: 'The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - ApiToken: []
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The minimal possible response for any request
+    TemplateResponse:
+      title: Template Response
+      type: object
+      properties:
+        Templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateItem'
+          description: The list of templates
+          nullable: true
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type: string
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          nullable: true
+          deprecated: true
+        StatusMessage:
+          type: string
+          description: Status message describing an error that occurred during the processing of the request
+          nullable: true
+      additionalProperties: false
+      description: The response containing available templates
+    TemplateItem:
+      title: Template Item
+      type: object
+      properties:
+        Id:
+          type: integer
+          description: Unique template Id
+          format: int32
+        Name:
+          type: string
+          description: Template name
+          nullable: true
+        Type:
+          type: string
+          description: Template type name
+          nullable: true
+        Language:
+          type: string
+          description: Language IsoAlpha2 code
+          nullable: true
+        Sender:
+          type: string
+          description: Sender name
+          nullable: true
+        Subject:
+          type: string
+          description: Template subject
+          nullable: true
+        FormattedText:
+          type: string
+          description: Template text that include html elements
+          nullable: true
+        PlainText:
+          type: string
+          description: Template plain text
+          nullable: true
+      additionalProperties: false
+      description: An object containing information about template
+  securitySchemes:
+    ApiToken:
+      type: apiKey
+      description: The API-Token provided to you by Huuray.
+      name: X-API-TOKEN
+      in: header
