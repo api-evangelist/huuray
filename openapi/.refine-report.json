@@ -1,0 +1,30 @@
+{
+  "provider": "huuray",
+  "sources": [
+    "huuray-balance-api-openapi.yml",
+    "huuray-cancel-api-openapi.yml",
+    "huuray-catalogue-api-openapi.yml",
+    "huuray-exchangerates-api-openapi.yml",
+    "huuray-order-api-openapi.yml",
+    "huuray-resend-api-openapi.yml",
+    "huuray-search-api-openapi.yml",
+    "huuray-stock-api-openapi.yml",
+    "huuray-template-api-openapi.yml"
+  ],
+  "outputs": [
+    "huuray-balance-api-openapi.yml",
+    "huuray-cancel-api-openapi.yml",
+    "huuray-catalogue-api-openapi.yml",
+    "huuray-exchangerates-api-openapi.yml",
+    "huuray-order-api-openapi.yml",
+    "huuray-resend-api-openapi.yml",
+    "huuray-search-api-openapi.yml",
+    "huuray-stock-api-openapi.yml",
+    "huuray-template-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
