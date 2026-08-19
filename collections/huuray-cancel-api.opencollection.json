@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Huuray Balance Cancel API",
+    "version": "v4"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cancel",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Used to Cancel Orders or Giftcards",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v4/Cancel",
+            "headers": [
+              {
+                "name": "X-API-NONCE",
+                "value": ""
+              },
+              {
+                "name": "X-API-HASH",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-TOKEN",
+              "value": "{{X-API-TOKEN}}",
+              "placement": "header"
+            }
+          },
+          "docs": "n/a"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

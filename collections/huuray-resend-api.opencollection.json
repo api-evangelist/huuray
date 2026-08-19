@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Huuray Balance Resend API",
+    "version": "v4"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Resend",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Used to Resend Orders or Giftcards",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v4/Resend",
+            "headers": [
+              {
+                "name": "X-API-NONCE",
+                "value": ""
+              },
+              {
+                "name": "X-API-HASH",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-TOKEN",
+              "value": "{{X-API-TOKEN}}",
+              "placement": "header"
+            }
+          },
+          "docs": "n/a"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

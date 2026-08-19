@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Huuray Balance ExchangeRates API",
+    "version": "v4"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ExchangeRates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Used to retrieve current exchange rate data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v4/ExchangeRates",
+            "headers": [
+              {
+                "name": "X-API-NONCE",
+                "value": ""
+              },
+              {
+                "name": "X-API-HASH",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "FromCurrency",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ToCurrency",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-TOKEN",
+              "value": "{{X-API-TOKEN}}",
+              "placement": "header"
+            }
+          },
+          "docs": "The exchange rate data consists of exchange rate and spread. The currency parameters must be ISO-3 currency codes."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

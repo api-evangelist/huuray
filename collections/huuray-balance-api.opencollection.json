@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Huuray Balance API",
+    "version": "v4"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Balance",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Used to get available balances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v4/Balance",
+            "headers": [
+              {
+                "name": "X-API-NONCE",
+                "value": ""
+              },
+              {
+                "name": "X-API-HASH",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-TOKEN",
+              "value": "{{X-API-TOKEN}}",
+              "placement": "header"
+            }
+          },
+          "docs": "The amount of available balances on the B2B account in minor units with currency"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

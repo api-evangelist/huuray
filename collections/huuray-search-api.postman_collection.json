@@ -1,0 +1,493 @@
+{
+  "item": [
+    {
+      "id": "bfb477a0-f7ac-4d04-91a1-9266bac4e57d",
+      "name": "Search",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0212ebf6-d142-49c9-8312-661d23547762",
+          "name": "Used to search through giftcards from previous orders",
+          "request": {
+            "name": "Used to search through giftcards from previous orders",
+            "description": {
+              "content": "n/a",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v4",
+                "Search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>",
+                "key": "X-API-NONCE",
+                "value": ""
+              },
+              {
+                "disabled": false,
+                "description": "(Required) The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>",
+                "key": "X-API-HASH",
+                "value": ""
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-TOKEN"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"OrderUID\": \"<string>\",\n  \"VoucherID\": \"<integer>\",\n  \"ProductToken\": \"<string>\",\n  \"RefID\": \"<string>\",\n  \"SMSTemplateID\": \"<integer>\",\n  \"EmailTemplateID\": \"<integer>\",\n  \"DeliveryDatetime\": \"<dateTime>\",\n  \"RecipientName\": \"<string>\",\n  \"RecipientEmail\": \"<string>\",\n  \"RecipientPhone\": \"<string>\",\n  \"RecipientRefID\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b69c2733-de96-4db5-8182-7059c9cb8d16",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v4",
+                    "Search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-TOKEN",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>",
+                    "key": "X-API-NONCE",
+                    "value": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>",
+                    "key": "X-API-HASH",
+                    "value": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"OrderUID\": \"<string>\",\n  \"VoucherID\": \"<integer>\",\n  \"ProductToken\": \"<string>\",\n  \"RefID\": \"<string>\",\n  \"SMSTemplateID\": \"<integer>\",\n  \"EmailTemplateID\": \"<integer>\",\n  \"DeliveryDatetime\": \"<dateTime>\",\n  \"RecipientName\": \"<string>\",\n  \"RecipientEmail\": \"<string>\",\n  \"RecipientPhone\": \"<string>\",\n  \"RecipientRefID\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"OrderUID\": \"string\",\n  \"RefID\": \"string\",\n  \"Vouchers\": [\n    {\n      \"ID\": 2727,\n      \"Code\": \"string\",\n      \"CVV\": \"string\",\n      \"RedeemLink\": \"string\",\n      \"Expires\": \"1946-09-26T01:16:52.569Z\",\n      \"Recipient\": {\n        \"Name\": \"string\",\n        \"Email\": \"string\",\n        \"Phone\": \"string\",\n        \"RefID\": \"string\"\n      }\n    },\n    {\n      \"ID\": 8524,\n      \"Code\": \"string\",\n      \"CVV\": \"string\",\n      \"RedeemLink\": \"string\",\n      \"Expires\": \"2018-09-28T23:42:57.201Z\",\n      \"Recipient\": {\n        \"Name\": \"string\",\n        \"Email\": \"string\",\n        \"Phone\": \"string\",\n        \"RefID\": \"string\"\n      }\n    }\n  ],\n  \"Status\": 2875,\n  \"Message\": \"string\",\n  \"StatusMessage\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba9fb324-d579-4941-8cf1-7b78f026ebfe",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v4",
+                    "Search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-TOKEN",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>",
+                    "key": "X-API-NONCE",
+                    "value": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>",
+                    "key": "X-API-HASH",
+                    "value": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"OrderUID\": \"<string>\",\n  \"VoucherID\": \"<integer>\",\n  \"ProductToken\": \"<string>\",\n  \"RefID\": \"<string>\",\n  \"SMSTemplateID\": \"<integer>\",\n  \"EmailTemplateID\": \"<integer>\",\n  \"DeliveryDatetime\": \"<dateTime>\",\n  \"RecipientName\": \"<string>\",\n  \"RecipientEmail\": \"<string>\",\n  \"RecipientPhone\": \"<string>\",\n  \"RecipientRefID\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Status\": 7874,\n  \"Message\": \"string\",\n  \"StatusMessage\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a08d6ed-cc88-4f37-87f1-8ace83a698fe",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v4",
+                    "Search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-TOKEN",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>",
+                    "key": "X-API-NONCE",
+                    "value": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>",
+                    "key": "X-API-HASH",
+                    "value": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"OrderUID\": \"<string>\",\n  \"VoucherID\": \"<integer>\",\n  \"ProductToken\": \"<string>\",\n  \"RefID\": \"<string>\",\n  \"SMSTemplateID\": \"<integer>\",\n  \"EmailTemplateID\": \"<integer>\",\n  \"DeliveryDatetime\": \"<dateTime>\",\n  \"RecipientName\": \"<string>\",\n  \"RecipientEmail\": \"<string>\",\n  \"RecipientPhone\": \"<string>\",\n  \"RecipientRefID\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Status\": 7874,\n  \"Message\": \"string\",\n  \"StatusMessage\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c8059ea5-de75-441f-a017-a3aaf3f9f341",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v4",
+                    "Search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-TOKEN",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>",
+                    "key": "X-API-NONCE",
+                    "value": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>",
+                    "key": "X-API-HASH",
+                    "value": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"OrderUID\": \"<string>\",\n  \"VoucherID\": \"<integer>\",\n  \"ProductToken\": \"<string>\",\n  \"RefID\": \"<string>\",\n  \"SMSTemplateID\": \"<integer>\",\n  \"EmailTemplateID\": \"<integer>\",\n  \"DeliveryDatetime\": \"<dateTime>\",\n  \"RecipientName\": \"<string>\",\n  \"RecipientEmail\": \"<string>\",\n  \"RecipientPhone\": \"<string>\",\n  \"RecipientRefID\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Status\": 7874,\n  \"Message\": \"string\",\n  \"StatusMessage\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c8af98f2-c079-4f3b-945f-05a30b814c00",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v4",
+                    "Search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-TOKEN",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>",
+                    "key": "X-API-NONCE",
+                    "value": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>",
+                    "key": "X-API-HASH",
+                    "value": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"OrderUID\": \"<string>\",\n  \"VoucherID\": \"<integer>\",\n  \"ProductToken\": \"<string>\",\n  \"RefID\": \"<string>\",\n  \"SMSTemplateID\": \"<integer>\",\n  \"EmailTemplateID\": \"<integer>\",\n  \"DeliveryDatetime\": \"<dateTime>\",\n  \"RecipientName\": \"<string>\",\n  \"RecipientEmail\": \"<string>\",\n  \"RecipientPhone\": \"<string>\",\n  \"RecipientRefID\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Status\": 7874,\n  \"Message\": \"string\",\n  \"StatusMessage\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "011a34a3-a4ee-4137-bbed-73ebda052c9f",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v4",
+                    "Search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-TOKEN",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) A random value that can only be used once every 60 days. (max 50 characters)<br /><small>(this prevents your message from being re-transmitted, and thereby also replay attacks)</small>",
+                    "key": "X-API-NONCE",
+                    "value": ""
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The SHA512 hash of a concatenated string containing the following: ( API-SECRET + NONCE ).<br /><small>(this is used to authenticate you)</small>",
+                    "key": "X-API-HASH",
+                    "value": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"OrderUID\": \"<string>\",\n  \"VoucherID\": \"<integer>\",\n  \"ProductToken\": \"<string>\",\n  \"RefID\": \"<string>\",\n  \"SMSTemplateID\": \"<integer>\",\n  \"EmailTemplateID\": \"<integer>\",\n  \"DeliveryDatetime\": \"<dateTime>\",\n  \"RecipientName\": \"<string>\",\n  \"RecipientEmail\": \"<string>\",\n  \"RecipientPhone\": \"<string>\",\n  \"RecipientRefID\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Status\": 7874,\n  \"Message\": \"string\",\n  \"StatusMessage\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "29ec1aed-7aab-45d8-bde9-70a7c91faf41",
+    "name": "Huuray Balance Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Huuray API for B2B customers (last updated april 2025)\n\nContact Support:\n Name: Support\n Email: tech@huuray.com",
+      "type": "text/plain"
+    }
+  }
+}
