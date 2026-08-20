@@ -35,6 +35,8 @@ apis:
   humanURL: https://huuray.com/solutions/developers-gift-card-api/
   baseURL: https://api.huuray.com
   tags:
+  - Balances
+  tags_raw:
   - Balance
   properties:
   - type: OpenAPI
@@ -77,6 +79,8 @@ apis:
   humanURL: https://huuray.com/solutions/developers-gift-card-api/
   baseURL: https://api.huuray.com
   tags:
+  - Exchange Rates
+  tags_raw:
   - ExchangeRates
   properties:
   - type: OpenAPI
