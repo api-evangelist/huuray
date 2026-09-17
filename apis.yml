@@ -85,22 +85,6 @@ apis:
     url: https://huuray.com/solutions/developers-gift-card-api/
   - type: SwaggerUI
     url: https://api.huuray.com/swagger/index.html
-- aid: huuray:huuray-exchangerates-api
-  name: Huuray ExchangeRates API
-  description: The ExchangeRates API from Huuray — 1 operation(s) for exchangerates.
-  humanURL: https://huuray.com/solutions/developers-gift-card-api/
-  baseURL: https://api.huuray.com
-  tags:
-  - Exchange Rates
-  tags_raw:
-  - ExchangeRates
-  properties:
-  - type: OpenAPI
-    url: openapi/huuray-exchangerates-api-openapi.yml
-  - type: Documentation
-    url: https://huuray.com/solutions/developers-gift-card-api/
-  - type: SwaggerUI
-    url: https://api.huuray.com/swagger/index.html
 - aid: huuray:huuray-order-api
   name: Huuray Order API
   description: The Order API from Huuray — 1 operation(s) for order.
@@ -167,6 +151,20 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/huuray-template-api-openapi.yml
+  - type: Documentation
+    url: https://huuray.com/solutions/developers-gift-card-api/
+  - type: SwaggerUI
+    url: https://api.huuray.com/swagger/index.html
+- aid: huuray:huuray-exchange-rates-api
+  name: Huuray Exchange Rates API
+  description: The Exchange Rates API from Huuray — 1 operation(s) for exchange rates.
+  humanURL: https://huuray.com/solutions/developers-gift-card-api/
+  baseURL: https://api.huuray.com
+  tags:
+  - Exchange Rates
+  properties:
+  - type: OpenAPI
+    url: openapi/huuray-exchange-rates-api-openapi.yml
   - type: Documentation
     url: https://huuray.com/solutions/developers-gift-card-api/
   - type: SwaggerUI
