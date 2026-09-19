@@ -133,6 +133,8 @@ apis:
   humanURL: https://huuray.com/solutions/developers-gift-card-api/
   baseURL: https://api.huuray.com
   tags:
+  - Stocks
+  tags_raw:
   - Stock
   properties:
   - type: OpenAPI
@@ -147,6 +149,8 @@ apis:
   humanURL: https://huuray.com/solutions/developers-gift-card-api/
   baseURL: https://api.huuray.com
   tags:
+  - Templates
+  tags_raw:
   - Template
   properties:
   - type: OpenAPI
