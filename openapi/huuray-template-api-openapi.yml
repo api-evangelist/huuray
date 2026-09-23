@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Huuray Balance Template API
+  title: Huuray Template API
   description: Huuray API for B2B customers (last updated april 2025)
   contact:
     name: Support
@@ -63,51 +63,10 @@ paths:
                 $ref: '#/components/schemas/Response'
       security:
       - ApiToken: []
+      operationId: postV4Template
+      x-operation-id-source: derived
 components:
   schemas:
-    Response:
-      type: object
-      properties:
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type: string
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
-          deprecated: true
-        StatusMessage:
-          type: string
-          description: Status message describing an error that occurred during the processing of the request
-          nullable: true
-      additionalProperties: false
-      description: The minimal possible response for any request
-    TemplateResponse:
-      title: Template Response
-      type: object
-      properties:
-        Templates:
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateItem'
-          description: The list of templates
-          nullable: true
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type: string
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
-          deprecated: true
-        StatusMessage:
-          type: string
-          description: Status message describing an error that occurred during the processing of the request
-          nullable: true
-      additionalProperties: false
-      description: The response containing available templates
     TemplateItem:
       title: Template Item
       type: object
@@ -117,35 +76,90 @@ components:
           description: Unique template Id
           format: int32
         Name:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Template name
-          nullable: true
         Type:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Template type name
-          nullable: true
         Language:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Language IsoAlpha2 code
-          nullable: true
         Sender:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Sender name
-          nullable: true
         Subject:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Template subject
-          nullable: true
         FormattedText:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Template text that include html elements
-          nullable: true
         PlainText:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Template plain text
-          nullable: true
       additionalProperties: false
       description: An object containing information about template
+    TemplateResponse:
+      title: Template Response
+      type: object
+      properties:
+        Templates:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateItem'
+          description: The list of templates
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response containing available templates
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The minimal possible response for any request
   securitySchemes:
     ApiToken:
       type: apiKey

@@ -1,18 +1,18 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Huuray Balance ExchangeRates API
+  title: Huuray Exchange Rates API
   description: Huuray API for B2B customers (last updated april 2025)
   contact:
     name: Support
     email: tech@huuray.com
   version: v4
 tags:
-- name: ExchangeRates
+- name: Exchange Rates
 paths:
   /v4/ExchangeRates:
     get:
       tags:
-      - ExchangeRates
+      - Exchange Rates
       summary: Used to retrieve current exchange rate data
       description: The exchange rate data consists of exchange rate and spread. The currency parameters must be ISO-3 currency codes.
       parameters:
@@ -71,8 +71,43 @@ paths:
                 $ref: '#/components/schemas/Response'
       security:
       - ApiToken: []
+      operationId: getV4ExchangeRates
+      x-operation-id-source: derived
 components:
   schemas:
+    ExchangeRatesResponse:
+      title: Exchange Rates Response
+      type: object
+      properties:
+        ExchangeRate:
+          type:
+          - number
+          - 'null'
+          description: Exchange rate
+          format: double
+        Spread:
+          type:
+          - integer
+          - 'null'
+          description: Spread in percentage
+          format: int32
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response containing the exchange rate and spread
     Response:
       type: object
       properties:
@@ -81,45 +116,18 @@ components:
           description: HttpStatus code for the response
           format: int32
         Message:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
           deprecated: true
         StatusMessage:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Status message describing an error that occurred during the processing of the request
-          nullable: true
       additionalProperties: false
       description: The minimal possible response for any request
-    ExchangeRatesResponse:
-      title: Exchange Rates Response
-      type: object
-      properties:
-        ExchangeRate:
-          type: number
-          description: Exchange rate
-          format: double
-          nullable: true
-        Spread:
-          type: integer
-          description: Spread in percentage
-          format: int32
-          nullable: true
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type: string
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
-          deprecated: true
-        StatusMessage:
-          type: string
-          description: Status message describing an error that occurred during the processing of the request
-          nullable: true
-      additionalProperties: false
-      description: The response containing the exchange rate and spread
   securitySchemes:
     ApiToken:
       type: apiKey

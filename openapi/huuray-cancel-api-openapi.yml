@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Huuray Balance Cancel API
+  title: Huuray Cancel API
   description: Huuray API for B2B customers (last updated april 2025)
   contact:
     name: Support
@@ -80,58 +80,27 @@ paths:
                 $ref: '#/components/schemas/Response'
       security:
       - ApiToken: []
+      operationId: deleteV4Cancel
+      x-operation-id-source: derived
 components:
   schemas:
-    Response:
-      type: object
-      properties:
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type: string
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
-          deprecated: true
-        StatusMessage:
-          type: string
-          description: Status message describing an error that occurred during the processing of the request
-          nullable: true
-      additionalProperties: false
-      description: The minimal possible response for any request
-    CancelResponse:
-      title: Cancel Response
+    CancelRequest:
+      title: Cancel Request
+      required:
+      - OrderUID
       type: object
       properties:
         OrderUID:
           type: string
-          description: The UID of the Order that was attempted to be cancelled
-          nullable: true
-        OrderCancelled:
-          type: boolean
-          description: An option that shows whether the Order was cancelled
-        Vouchers:
-          type: array
-          items:
-            $ref: '#/components/schemas/CancelVoucher'
-          description: A list of the individual Vouchers in the Order that was attempted to be cancelled
-          nullable: true
-        Status:
-          type: integer
-          description: HttpStatus code for the response
+          description: The UID of the Order you want to Cancel from
+        VoucherID:
+          type:
+          - integer
+          - 'null'
+          description: The ID of the specific Voucher in the given Order that you want to Cancel. If null is given, we will attempt to Cancel the entire Order
           format: int32
-        Message:
-          type: string
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
-          deprecated: true
-        StatusMessage:
-          type: string
-          description: Status message describing an error that occurred during the processing of the request
-          nullable: true
       additionalProperties: false
-      description: The response from a Cancel request
+      description: An object containing all the necessary information for Canceling giftcards
     CancelVoucher:
       title: Voucher (Cancel)
       type: object
@@ -145,22 +114,62 @@ components:
           description: An option that shows whether the Voucher was cancelled
       additionalProperties: false
       description: An object describing the outcome of an Voucher Cancel
-    CancelRequest:
-      title: Cancel Request
-      required:
-      - OrderUID
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The minimal possible response for any request
+    CancelResponse:
+      title: Cancel Response
       type: object
       properties:
         OrderUID:
-          type: string
-          description: The UID of the Order you want to Cancel from
-        VoucherID:
+          type:
+          - string
+          - 'null'
+          description: The UID of the Order that was attempted to be cancelled
+        OrderCancelled:
+          type: boolean
+          description: An option that shows whether the Order was cancelled
+        Vouchers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CancelVoucher'
+          description: A list of the individual Vouchers in the Order that was attempted to be cancelled
+        Status:
           type: integer
-          description: The ID of the specific Voucher in the given Order that you want to Cancel. If null is given, we will attempt to Cancel the entire Order
+          description: HttpStatus code for the response
           format: int32
-          nullable: true
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
       additionalProperties: false
-      description: An object containing all the necessary information for Canceling giftcards
+      description: The response from a Cancel request
   securitySchemes:
     ApiToken:
       type: apiKey

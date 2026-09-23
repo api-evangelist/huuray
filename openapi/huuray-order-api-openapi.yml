@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Huuray Balance Order API
+  title: Huuray Order API
   description: Huuray API for B2B customers (last updated april 2025)
   contact:
     name: Support
@@ -86,8 +86,43 @@ paths:
                 $ref: '#/components/schemas/Response'
       security:
       - ApiToken: []
+      operationId: postV4Order
+      x-operation-id-source: derived
 components:
   schemas:
+    OrderVoucher:
+      title: Voucher (Order)
+      type: object
+      properties:
+        ID:
+          type:
+          - integer
+          - 'null'
+          description: The unique identifier of the voucher (used by resend and cancel endpoints)
+          format: int32
+        Code:
+          type:
+          - string
+          - 'null'
+          description: The redeemable code of the voucher. (This will be blanked unless ReturnCode is enabled in your B2B Account)
+        CVV:
+          type:
+          - string
+          - 'null'
+          description: A value used to verify the authenticity of the voucher (if applicable). (This will be blanked unless ReturnCode is enabled in your B2B Account)
+        RedeemLink:
+          type:
+          - string
+          - 'null'
+          description: The URL to redeem the voucher. (This will be blanked unless ReturnCode is enabled in your B2B Account)
+        Expires:
+          type: string
+          description: The time and date for when the voucher expires
+          format: date-time
+        Recipient:
+          $ref: '#/components/schemas/OrderRecipient'
+      additionalProperties: false
+      description: An object containing information about a voucher
     OrderProduct:
       title: Product (Order)
       required:
@@ -114,61 +149,37 @@ components:
           description: The amount of codes you are ordering
           format: int32
         Expires:
-          type: string
+          type:
+          - string
+          - 'null'
           description: An optional time and date for the giftcards to expire. If omitted, the default expiration will be used, and the value cannot exceed the default expiration
           format: date-time
-          nullable: true
       additionalProperties: false
       description: An object containing information about a product
-    OrderVoucher:
-      title: Voucher (Order)
-      type: object
-      properties:
-        ID:
-          type: integer
-          description: The unique identifier of the voucher (used by resend and cancel endpoints)
-          format: int32
-          nullable: true
-        Code:
-          type: string
-          description: The redeemable code of the voucher. (This will be blanked unless ReturnCode is enabled in your B2B Account)
-          nullable: true
-        CVV:
-          type: string
-          description: A value used to verify the authenticity of the voucher (if applicable). (This will be blanked unless ReturnCode is enabled in your B2B Account)
-          nullable: true
-        RedeemLink:
-          type: string
-          description: The URL to redeem the voucher. (This will be blanked unless ReturnCode is enabled in your B2B Account)
-          nullable: true
-        Expires:
-          type: string
-          description: The time and date for when the voucher expires
-          format: date-time
-        Recipient:
-          $ref: '#/components/schemas/OrderRecipient'
-      additionalProperties: false
-      description: An object containing information about a voucher
     OrderRecipient:
       title: Recipient (Order)
       type: object
       properties:
         Name:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The name of the recipient
-          nullable: true
         Email:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The email address of the recipient (required if DeliveryMethod is set to Email)
-          nullable: true
         Phone:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The phone number of the recipient (required if DeliveryMethod is set to SMS)
-          nullable: true
         RefID:
-          type: string
+          type:
+          - string
+          - 'null'
           description: An optional ID that you can use to identify the individual recipient
-          nullable: true
       additionalProperties: false
       description: An object containing information about a single recipient
     OrderRequest:
@@ -184,31 +195,74 @@ components:
           type: boolean
           description: Determines whether the Order is a sync order (If set to true, then quantity is limited to 25 and vouchers are returned in the response)
         RefID:
-          type: string
+          type:
+          - string
+          - 'null'
           description: An optional ID that you can use to identify the resulting order with
-          nullable: true
         DeliveryTemplateId:
-          type: integer
+          type:
+          - integer
+          - 'null'
           description: The template used to deliver the codes (Email, SMS, or no delivery if null)
           format: int32
-          nullable: true
         DeliveryDatetime:
-          type: string
+          type:
+          - string
+          - 'null'
           description: An optional future date for delivery to take place, if null delivery will happen as soon as possible
           format: date-time
-          nullable: true
         PersonalMessage:
-          type: string
+          type:
+          - string
+          - 'null'
           description: An optional message to include in all the SMS/Emails (if applicable)
-          nullable: true
         Recipients:
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             $ref: '#/components/schemas/OrderRecipient'
           description: A list of all the recipients. It is required unless DeliveryTemplateId is null. If specified, the count must be either 1 or match Product.Quantity
-          nullable: true
       additionalProperties: false
       description: An object containing all the necessary information for ordering giftcards
+    OrderResponse:
+      title: Order Response
+      type: object
+      properties:
+        OrderUID:
+          type:
+          - string
+          - 'null'
+          description: A unique ID which will be connected to the resulting order
+        RefID:
+          type:
+          - string
+          - 'null'
+          description: The optional ID that you specified in the order request
+        Vouchers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OrderVoucher'
+          description: The resulting vouchers for the placed order (contain data only for Sync request)
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response from the Order request
     Response:
       type: object
       properties:
@@ -217,49 +271,18 @@ components:
           description: HttpStatus code for the response
           format: int32
         Message:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
           deprecated: true
         StatusMessage:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Status message describing an error that occurred during the processing of the request
-          nullable: true
       additionalProperties: false
       description: The minimal possible response for any request
-    OrderResponse:
-      title: Order Response
-      type: object
-      properties:
-        OrderUID:
-          type: string
-          description: A unique ID which will be connected to the resulting order
-          nullable: true
-        RefID:
-          type: string
-          description: The optional ID that you specified in the order request
-          nullable: true
-        Vouchers:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderVoucher'
-          description: The resulting vouchers for the placed order (contain data only for Sync request)
-          nullable: true
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type: string
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
-          deprecated: true
-        StatusMessage:
-          type: string
-          description: Status message describing an error that occurred during the processing of the request
-          nullable: true
-      additionalProperties: false
-      description: The response from the Order request
   securitySchemes:
     ApiToken:
       type: apiKey

@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Huuray Balance Catalogue API
+  title: Huuray Catalogue API
   description: Huuray API for B2B customers (last updated april 2025)
   contact:
     name: Support
@@ -68,8 +68,38 @@ paths:
                 $ref: '#/components/schemas/Response'
       security:
       - ApiToken: []
+      operationId: postV4Catalogue
+      x-operation-id-source: derived
 components:
   schemas:
+    CatalogueResponse:
+      title: Product Catalogue Response
+      type: object
+      properties:
+        Products:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CatalogueProduct'
+          description: The list of products
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response containing products
     Response:
       type: object
       properties:
@@ -78,14 +108,16 @@ components:
           description: HttpStatus code for the response
           format: int32
         Message:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
           deprecated: true
         StatusMessage:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Status message describing an error that occurred during the processing of the request
-          nullable: true
       additionalProperties: false
       description: The minimal possible response for any request
     CatalogueRequest:
@@ -93,9 +125,10 @@ components:
       type: object
       properties:
         All:
-          type: boolean
+          type:
+          - boolean
+          - 'null'
           description: Set this option to 'true' to fetch the entire product catalog; 'false' to limit the search to the products that your account has access to
-          nullable: true
       additionalProperties: false
       description: An object containing the required input for the product catalogue API
     CatalogueProduct:
@@ -103,88 +136,76 @@ components:
       type: object
       properties:
         ProductToken:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Unique product ID<br />Only part of the response if the 'all' request-parameter is 'false'
-          nullable: true
         BrandName:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Products brand name
-          nullable: true
         Country:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Country name
-          nullable: true
         CountryCode:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Country IsoAlpha2 code
-          nullable: true
         Discount:
-          type: number
+          type:
+          - number
+          - 'null'
           description: Discount in percent
           format: decimal(5,2)
-          nullable: true
         Denominations:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Product denominations separated by commas
-          nullable: true
         Currency:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Currency IsoAlpha3 code
-          nullable: true
         RealTimeStock:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Real-time or Stock
-          nullable: true
         Categories:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Product categories separated by commas
-          nullable: true
         LanguageCode:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Language IsoAlpha2 code
-          nullable: true
         Active:
           type: boolean
           description: Active status
         BrandDescription:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Brand description in original language
-          nullable: true
         RedemptionInstructions:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Redemption instructions in original language
-          nullable: true
         LogoFile:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Logo file url
-          nullable: true
       additionalProperties: false
       description: An object containing information about product
-    CatalogueResponse:
-      title: Product Catalogue Response
-      type: object
-      properties:
-        Products:
-          type: array
-          items:
-            $ref: '#/components/schemas/CatalogueProduct'
-          description: The list of products
-          nullable: true
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type: string
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
-          deprecated: true
-        StatusMessage:
-          type: string
-          description: Status message describing an error that occurred during the processing of the request
-          nullable: true
-      additionalProperties: false
-      description: The response containing products
   securitySchemes:
     ApiToken:
       type: apiKey

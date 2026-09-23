@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Huuray Balance Search API
+  title: Huuray Search API
   description: Huuray API for B2B customers (last updated april 2025)
   contact:
     name: Support
@@ -68,146 +68,10 @@ paths:
                 $ref: '#/components/schemas/Response'
       security:
       - ApiToken: []
+      operationId: postV4Search
+      x-operation-id-source: derived
 components:
   schemas:
-    SearchResponse:
-      title: Search Response
-      type: object
-      properties:
-        OrderUID:
-          type: string
-          description: The unique identifier of the matched order
-          nullable: true
-        RefID:
-          type: string
-          description: The internal reference to the corresponding order in your own system
-          nullable: true
-        Vouchers:
-          type: array
-          items:
-            $ref: '#/components/schemas/SearchVoucher'
-          description: The list of the matching vouchers
-          nullable: true
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type: string
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
-          deprecated: true
-        StatusMessage:
-          type: string
-          description: Status message describing an error that occurred during the processing of the request
-          nullable: true
-      additionalProperties: false
-      description: The response from a search
-    SearchRecipient:
-      title: Recipient (Search)
-      type: object
-      properties:
-        Name:
-          type: string
-          description: The name of the recipient (either person or company)
-          nullable: true
-        Email:
-          type: string
-          description: The e-mail address of the recipient
-          nullable: true
-        Phone:
-          type: string
-          description: The phone number of the recipient
-          nullable: true
-        RefID:
-          type: string
-          description: The internal reference to an recipient in your own system
-          nullable: true
-      additionalProperties: false
-      description: An object containing information about a recipient
-    SearchRequest:
-      title: Search Request
-      type: object
-      properties:
-        OrderUID:
-          type: string
-          description: The unique identifier of the order
-          nullable: true
-        VoucherID:
-          type: integer
-          description: The unique identifier of the voucher (required to show code in output)
-          format: int32
-          nullable: true
-        ProductToken:
-          type: string
-          description: The token that identifies the product to be sent out
-          nullable: true
-        RefID:
-          type: string
-          description: The internal reference to an order in your own system
-          nullable: true
-        SMSTemplateID:
-          type: integer
-          description: The unique identifier of the SMS template (Required if sending via SMS)
-          format: int32
-          nullable: true
-        EmailTemplateID:
-          type: integer
-          description: The unique identifier of the e-mail template (Required if sending via e-mail)
-          format: int32
-          nullable: true
-        DeliveryDatetime:
-          type: string
-          description: The future date for delivery to take place
-          format: date-time
-          nullable: true
-        RecipientName:
-          type: string
-          description: The name of the recipient (either person or company)
-          nullable: true
-        RecipientEmail:
-          type: string
-          description: The e-mail address of the recipient (Required if sending via e-mail)
-          nullable: true
-        RecipientPhone:
-          type: string
-          description: The phone number of the recipient (Required if sending via SMS)
-          nullable: true
-        RecipientRefID:
-          type: string
-          description: The internal reference to an recipient in your own system
-          nullable: true
-      additionalProperties: false
-      description: An object containing all the informations you can search for
-    SearchVoucher:
-      title: Voucher (Search)
-      type: object
-      properties:
-        ID:
-          type: integer
-          description: The unique identifier of the voucher (required to show code in output)
-          format: int32
-          nullable: true
-        Code:
-          type: string
-          description: The redeemable code of the voucher
-          nullable: true
-        CVV:
-          type: string
-          description: A value used to verify the authenticity of the voucher (if applicable)
-          nullable: true
-        RedeemLink:
-          type: string
-          description: The URL to redeem the voucher
-          nullable: true
-        Expires:
-          type: string
-          description: The time and date for when the voucher expires
-          format: date-time
-        Recipient:
-          $ref: '#/components/schemas/SearchRecipient'
-      additionalProperties: false
-      description: An object containing information about a voucher
     Response:
       type: object
       properties:
@@ -216,16 +80,180 @@ components:
           description: HttpStatus code for the response
           format: int32
         Message:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
           deprecated: true
         StatusMessage:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Status message describing an error that occurred during the processing of the request
-          nullable: true
       additionalProperties: false
       description: The minimal possible response for any request
+    SearchResponse:
+      title: Search Response
+      type: object
+      properties:
+        OrderUID:
+          type:
+          - string
+          - 'null'
+          description: The unique identifier of the matched order
+        RefID:
+          type:
+          - string
+          - 'null'
+          description: The internal reference to the corresponding order in your own system
+        Vouchers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SearchVoucher'
+          description: The list of the matching vouchers
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response from a search
+    SearchVoucher:
+      title: Voucher (Search)
+      type: object
+      properties:
+        ID:
+          type:
+          - integer
+          - 'null'
+          description: The unique identifier of the voucher (required to show code in output)
+          format: int32
+        Code:
+          type:
+          - string
+          - 'null'
+          description: The redeemable code of the voucher
+        CVV:
+          type:
+          - string
+          - 'null'
+          description: A value used to verify the authenticity of the voucher (if applicable)
+        RedeemLink:
+          type:
+          - string
+          - 'null'
+          description: The URL to redeem the voucher
+        Expires:
+          type: string
+          description: The time and date for when the voucher expires
+          format: date-time
+        Recipient:
+          $ref: '#/components/schemas/SearchRecipient'
+      additionalProperties: false
+      description: An object containing information about a voucher
+    SearchRequest:
+      title: Search Request
+      type: object
+      properties:
+        OrderUID:
+          type:
+          - string
+          - 'null'
+          description: The unique identifier of the order
+        VoucherID:
+          type:
+          - integer
+          - 'null'
+          description: The unique identifier of the voucher (required to show code in output)
+          format: int32
+        ProductToken:
+          type:
+          - string
+          - 'null'
+          description: The token that identifies the product to be sent out
+        RefID:
+          type:
+          - string
+          - 'null'
+          description: The internal reference to an order in your own system
+        SMSTemplateID:
+          type:
+          - integer
+          - 'null'
+          description: The unique identifier of the SMS template (Required if sending via SMS)
+          format: int32
+        EmailTemplateID:
+          type:
+          - integer
+          - 'null'
+          description: The unique identifier of the e-mail template (Required if sending via e-mail)
+          format: int32
+        DeliveryDatetime:
+          type:
+          - string
+          - 'null'
+          description: The future date for delivery to take place
+          format: date-time
+        RecipientName:
+          type:
+          - string
+          - 'null'
+          description: The name of the recipient (either person or company)
+        RecipientEmail:
+          type:
+          - string
+          - 'null'
+          description: The e-mail address of the recipient (Required if sending via e-mail)
+        RecipientPhone:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the recipient (Required if sending via SMS)
+        RecipientRefID:
+          type:
+          - string
+          - 'null'
+          description: The internal reference to an recipient in your own system
+      additionalProperties: false
+      description: An object containing all the informations you can search for
+    SearchRecipient:
+      title: Recipient (Search)
+      type: object
+      properties:
+        Name:
+          type:
+          - string
+          - 'null'
+          description: The name of the recipient (either person or company)
+        Email:
+          type:
+          - string
+          - 'null'
+          description: The e-mail address of the recipient
+        Phone:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the recipient
+        RefID:
+          type:
+          - string
+          - 'null'
+          description: The internal reference to an recipient in your own system
+      additionalProperties: false
+      description: An object containing information about a recipient
   securitySchemes:
     ApiToken:
       type: apiKey

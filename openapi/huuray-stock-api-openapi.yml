@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Huuray Balance Stock API
+  title: Huuray Stock API
   description: Huuray API for B2B customers (last updated april 2025)
   contact:
     name: Support
@@ -74,8 +74,37 @@ paths:
                 $ref: '#/components/schemas/Response'
       security:
       - ApiToken: []
+      operationId: postV4Stock
+      x-operation-id-source: derived
 components:
   schemas:
+    StockResponse:
+      title: Stock Response
+      type: object
+      properties:
+        Stock:
+          type:
+          - integer
+          - 'null'
+          description: The full count of giftcards found
+          format: int32
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response containing stock information for a product
     Response:
       type: object
       properties:
@@ -84,40 +113,18 @@ components:
           description: HttpStatus code for the response
           format: int32
         Message:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
           deprecated: true
         StatusMessage:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Status message describing an error that occurred during the processing of the request
-          nullable: true
       additionalProperties: false
       description: The minimal possible response for any request
-    StockResponse:
-      title: Stock Response
-      type: object
-      properties:
-        Stock:
-          type: integer
-          description: The full count of giftcards found
-          format: int32
-          nullable: true
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type: string
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
-          deprecated: true
-        StatusMessage:
-          type: string
-          description: Status message describing an error that occurred during the processing of the request
-          nullable: true
-      additionalProperties: false
-      description: The response containing stock information for a product
     StockRequest:
       title: Stock Request
       required:
@@ -128,10 +135,11 @@ components:
           type: string
           description: The unique token for the product you want to get stock information for
         Value:
-          type: integer
+          type:
+          - integer
+          - 'null'
           description: The value to check availability for. Defaults to the default price for the product if value is null
           format: int32
-          nullable: true
       additionalProperties: false
       description: An object containing the required input for the stock API
   securitySchemes:

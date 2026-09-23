@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
   title: Huuray Balance API
   description: Huuray API for B2B customers (last updated april 2025)
@@ -57,16 +57,67 @@ paths:
                 $ref: '#/components/schemas/Response'
       security:
       - ApiToken: []
+      operationId: getV4Balance
+      x-operation-id-source: derived
 components:
   schemas:
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The minimal possible response for any request
+    BalanceResponse:
+      title: Balance Response
+      type: object
+      properties:
+        Balances:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BalanceItem'
+          description: The list of balances
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response containing available balances with currency
     BalanceItem:
       title: Balance Item
       type: object
       properties:
         Currency:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The currency as ISO alpha-3 code
-          nullable: true
         Balance:
           type: integer
           description: The available balance in minor units
@@ -76,49 +127,6 @@ components:
           description: An option that shows whether the currency is a master currency
       additionalProperties: false
       description: An object containing information about available balance for currency
-    Response:
-      type: object
-      properties:
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type: string
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
-          deprecated: true
-        StatusMessage:
-          type: string
-          description: Status message describing an error that occurred during the processing of the request
-          nullable: true
-      additionalProperties: false
-      description: The minimal possible response for any request
-    BalanceResponse:
-      title: Balance Response
-      type: object
-      properties:
-        Balances:
-          type: array
-          items:
-            $ref: '#/components/schemas/BalanceItem'
-          description: The list of balances
-          nullable: true
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type: string
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
-          deprecated: true
-        StatusMessage:
-          type: string
-          description: Status message describing an error that occurred during the processing of the request
-          nullable: true
-      additionalProperties: false
-      description: The response containing available balances with currency
   securitySchemes:
     ApiToken:
       type: apiKey

@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Huuray Balance Resend API
+  title: Huuray Resend API
   description: Huuray API for B2B customers (last updated april 2025)
   contact:
     name: Support
@@ -80,6 +80,8 @@ paths:
                 $ref: '#/components/schemas/Response'
       security:
       - ApiToken: []
+      operationId: postV4Resend
+      x-operation-id-source: derived
 components:
   schemas:
     Response:
@@ -90,40 +92,18 @@ components:
           description: HttpStatus code for the response
           format: int32
         Message:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
           deprecated: true
         StatusMessage:
-          type: string
+          type:
+          - string
+          - 'null'
           description: Status message describing an error that occurred during the processing of the request
-          nullable: true
       additionalProperties: false
       description: The minimal possible response for any request
-    ResendResponse:
-      title: Resend Response
-      type: object
-      properties:
-        NumberOfResends:
-          type: integer
-          description: Shows the number of successful Resends
-          format: int32
-          nullable: true
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type: string
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          nullable: true
-          deprecated: true
-        StatusMessage:
-          type: string
-          description: Status message describing an error that occurred during the processing of the request
-          nullable: true
-      additionalProperties: false
-      description: The response from a Resend request
     ResendRequest:
       title: Resend Request
       required:
@@ -134,12 +114,40 @@ components:
           type: string
           description: The UID of the Order for the giftcards that you want to Resend
         VoucherID:
-          type: integer
+          type:
+          - integer
+          - 'null'
           description: The ID of the specific Voucher in the given Order that you want to Resend. If null is given, we will attempt to Resend the entire Order to all its receivers
           format: int32
-          nullable: true
       additionalProperties: false
       description: An object containing all the necessary information for resending a giftcard
+    ResendResponse:
+      title: Resend Response
+      type: object
+      properties:
+        NumberOfResends:
+          type:
+          - integer
+          - 'null'
+          description: Shows the number of successful Resends
+          format: int32
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response from a Resend request
   securitySchemes:
     ApiToken:
       type: apiKey
