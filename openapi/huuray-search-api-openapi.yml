@@ -72,26 +72,39 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Response:
+    SearchVoucher:
+      title: Voucher (Search)
       type: object
       properties:
-        Status:
-          type: integer
-          description: HttpStatus code for the response
+        ID:
+          type:
+          - integer
+          - 'null'
+          description: The unique identifier of the voucher (required to show code in output)
           format: int32
-        Message:
+        Code:
           type:
           - string
           - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
+          description: The redeemable code of the voucher
+        CVV:
           type:
           - string
           - 'null'
-          description: Status message describing an error that occurred during the processing of the request
+          description: A value used to verify the authenticity of the voucher (if applicable)
+        RedeemLink:
+          type:
+          - string
+          - 'null'
+          description: The URL to redeem the voucher
+        Expires:
+          type: string
+          description: The time and date for when the voucher expires
+          format: date-time
+        Recipient:
+          $ref: '#/components/schemas/SearchRecipient'
       additionalProperties: false
-      description: The minimal possible response for any request
+      description: An object containing information about a voucher
     SearchResponse:
       title: Search Response
       type: object
@@ -130,39 +143,52 @@ components:
           description: Status message describing an error that occurred during the processing of the request
       additionalProperties: false
       description: The response from a search
-    SearchVoucher:
-      title: Voucher (Search)
+    SearchRecipient:
+      title: Recipient (Search)
       type: object
       properties:
-        ID:
-          type:
-          - integer
-          - 'null'
-          description: The unique identifier of the voucher (required to show code in output)
-          format: int32
-        Code:
+        Name:
           type:
           - string
           - 'null'
-          description: The redeemable code of the voucher
-        CVV:
+          description: The name of the recipient (either person or company)
+        Email:
           type:
           - string
           - 'null'
-          description: A value used to verify the authenticity of the voucher (if applicable)
-        RedeemLink:
+          description: The e-mail address of the recipient
+        Phone:
           type:
           - string
           - 'null'
-          description: The URL to redeem the voucher
-        Expires:
-          type: string
-          description: The time and date for when the voucher expires
-          format: date-time
-        Recipient:
-          $ref: '#/components/schemas/SearchRecipient'
+          description: The phone number of the recipient
+        RefID:
+          type:
+          - string
+          - 'null'
+          description: The internal reference to an recipient in your own system
       additionalProperties: false
-      description: An object containing information about a voucher
+      description: An object containing information about a recipient
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The minimal possible response for any request
     SearchRequest:
       title: Search Request
       type: object
@@ -228,32 +254,6 @@ components:
           description: The internal reference to an recipient in your own system
       additionalProperties: false
       description: An object containing all the informations you can search for
-    SearchRecipient:
-      title: Recipient (Search)
-      type: object
-      properties:
-        Name:
-          type:
-          - string
-          - 'null'
-          description: The name of the recipient (either person or company)
-        Email:
-          type:
-          - string
-          - 'null'
-          description: The e-mail address of the recipient
-        Phone:
-          type:
-          - string
-          - 'null'
-          description: The phone number of the recipient
-        RefID:
-          type:
-          - string
-          - 'null'
-          description: The internal reference to an recipient in your own system
-      additionalProperties: false
-      description: An object containing information about a recipient
   securitySchemes:
     ApiToken:
       type: apiKey

@@ -123,39 +123,6 @@ components:
           $ref: '#/components/schemas/OrderRecipient'
       additionalProperties: false
       description: An object containing information about a voucher
-    OrderProduct:
-      title: Product (Order)
-      required:
-      - Currency
-      - Quantity
-      - Token
-      - Value
-      type: object
-      properties:
-        Token:
-          minLength: 1
-          type: string
-          description: The token used to identify a specific product
-        Value:
-          type: integer
-          description: The value denomination that you want to order. Must be specified in minor units (i.e. $5.00 should be sent as 500)
-          format: int32
-        Currency:
-          minLength: 1
-          type: string
-          description: The currency of the product
-        Quantity:
-          type: integer
-          description: The amount of codes you are ordering
-          format: int32
-        Expires:
-          type:
-          - string
-          - 'null'
-          description: An optional time and date for the giftcards to expire. If omitted, the default expiration will be used, and the value cannot exceed the default expiration
-          format: date-time
-      additionalProperties: false
-      description: An object containing information about a product
     OrderRecipient:
       title: Recipient (Order)
       type: object
@@ -182,6 +149,44 @@ components:
           description: An optional ID that you can use to identify the individual recipient
       additionalProperties: false
       description: An object containing information about a single recipient
+    OrderResponse:
+      title: Order Response
+      type: object
+      properties:
+        OrderUID:
+          type:
+          - string
+          - 'null'
+          description: A unique ID which will be connected to the resulting order
+        RefID:
+          type:
+          - string
+          - 'null'
+          description: The optional ID that you specified in the order request
+        Vouchers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OrderVoucher'
+          description: The resulting vouchers for the placed order (contain data only for Sync request)
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response from the Order request
     OrderRequest:
       title: Order Request
       required:
@@ -225,44 +230,6 @@ components:
           description: A list of all the recipients. It is required unless DeliveryTemplateId is null. If specified, the count must be either 1 or match Product.Quantity
       additionalProperties: false
       description: An object containing all the necessary information for ordering giftcards
-    OrderResponse:
-      title: Order Response
-      type: object
-      properties:
-        OrderUID:
-          type:
-          - string
-          - 'null'
-          description: A unique ID which will be connected to the resulting order
-        RefID:
-          type:
-          - string
-          - 'null'
-          description: The optional ID that you specified in the order request
-        Vouchers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/OrderVoucher'
-          description: The resulting vouchers for the placed order (contain data only for Sync request)
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The response from the Order request
     Response:
       type: object
       properties:
@@ -283,6 +250,39 @@ components:
           description: Status message describing an error that occurred during the processing of the request
       additionalProperties: false
       description: The minimal possible response for any request
+    OrderProduct:
+      title: Product (Order)
+      required:
+      - Currency
+      - Quantity
+      - Token
+      - Value
+      type: object
+      properties:
+        Token:
+          minLength: 1
+          type: string
+          description: The token used to identify a specific product
+        Value:
+          type: integer
+          description: The value denomination that you want to order. Must be specified in minor units (i.e. $5.00 should be sent as 500)
+          format: int32
+        Currency:
+          minLength: 1
+          type: string
+          description: The currency of the product
+        Quantity:
+          type: integer
+          description: The amount of codes you are ordering
+          format: int32
+        Expires:
+          type:
+          - string
+          - 'null'
+          description: An optional time and date for the giftcards to expire. If omitted, the default expiration will be used, and the value cannot exceed the default expiration
+          format: date-time
+      additionalProperties: false
+      description: An object containing information about a product
   securitySchemes:
     ApiToken:
       type: apiKey
