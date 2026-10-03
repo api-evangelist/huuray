@@ -72,45 +72,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CatalogueResponse:
-      title: Product Catalogue Response
-      type: object
-      properties:
-        Products:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CatalogueProduct'
-          description: The list of products
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The response containing products
-    CatalogueRequest:
-      title: Product Catalogue Request
-      type: object
-      properties:
-        All:
-          type:
-          - boolean
-          - 'null'
-          description: Set this option to 'true' to fetch the entire product catalog; 'false' to limit the search to the products that your account has access to
-      additionalProperties: false
-      description: An object containing the required input for the product catalogue API
     CatalogueProduct:
       title: Product (Catalogue)
       type: object
@@ -186,6 +147,34 @@ components:
           description: Logo file url
       additionalProperties: false
       description: An object containing information about product
+    CatalogueResponse:
+      title: Product Catalogue Response
+      type: object
+      properties:
+        Products:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CatalogueProduct'
+          description: The list of products
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response containing products
     Response:
       type: object
       properties:
@@ -206,6 +195,17 @@ components:
           description: Status message describing an error that occurred during the processing of the request
       additionalProperties: false
       description: The minimal possible response for any request
+    CatalogueRequest:
+      title: Product Catalogue Request
+      type: object
+      properties:
+        All:
+          type:
+          - boolean
+          - 'null'
+          description: Set this option to 'true' to fetch the entire product catalog; 'false' to limit the search to the products that your account has access to
+      additionalProperties: false
+      description: An object containing the required input for the product catalogue API
   securitySchemes:
     ApiToken:
       type: apiKey

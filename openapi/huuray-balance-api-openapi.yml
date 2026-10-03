@@ -61,34 +61,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    BalanceResponse:
-      title: Balance Response
-      type: object
-      properties:
-        Balances:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/BalanceItem'
-          description: The list of balances
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The response containing available balances with currency
     BalanceItem:
       title: Balance Item
       type: object
@@ -127,6 +99,34 @@ components:
           description: Status message describing an error that occurred during the processing of the request
       additionalProperties: false
       description: The minimal possible response for any request
+    BalanceResponse:
+      title: Balance Response
+      type: object
+      properties:
+        Balances:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/BalanceItem'
+          description: The list of balances
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response containing available balances with currency
   securitySchemes:
     ApiToken:
       type: apiKey

@@ -72,6 +72,26 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The minimal possible response for any request
     SearchVoucher:
       title: Voucher (Search)
       type: object
@@ -169,26 +189,6 @@ components:
           description: The internal reference to an recipient in your own system
       additionalProperties: false
       description: An object containing information about a recipient
-    Response:
-      type: object
-      properties:
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The minimal possible response for any request
     SearchRequest:
       title: Search Request
       type: object

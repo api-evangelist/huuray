@@ -90,39 +90,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    OrderVoucher:
-      title: Voucher (Order)
-      type: object
-      properties:
-        ID:
-          type:
-          - integer
-          - 'null'
-          description: The unique identifier of the voucher (used by resend and cancel endpoints)
-          format: int32
-        Code:
-          type:
-          - string
-          - 'null'
-          description: The redeemable code of the voucher. (This will be blanked unless ReturnCode is enabled in your B2B Account)
-        CVV:
-          type:
-          - string
-          - 'null'
-          description: A value used to verify the authenticity of the voucher (if applicable). (This will be blanked unless ReturnCode is enabled in your B2B Account)
-        RedeemLink:
-          type:
-          - string
-          - 'null'
-          description: The URL to redeem the voucher. (This will be blanked unless ReturnCode is enabled in your B2B Account)
-        Expires:
-          type: string
-          description: The time and date for when the voucher expires
-          format: date-time
-        Recipient:
-          $ref: '#/components/schemas/OrderRecipient'
-      additionalProperties: false
-      description: An object containing information about a voucher
     OrderRecipient:
       title: Recipient (Order)
       type: object
@@ -149,27 +116,9 @@ components:
           description: An optional ID that you can use to identify the individual recipient
       additionalProperties: false
       description: An object containing information about a single recipient
-    OrderResponse:
-      title: Order Response
+    Response:
       type: object
       properties:
-        OrderUID:
-          type:
-          - string
-          - 'null'
-          description: A unique ID which will be connected to the resulting order
-        RefID:
-          type:
-          - string
-          - 'null'
-          description: The optional ID that you specified in the order request
-        Vouchers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/OrderVoucher'
-          description: The resulting vouchers for the placed order (contain data only for Sync request)
         Status:
           type: integer
           description: HttpStatus code for the response
@@ -186,7 +135,7 @@ components:
           - 'null'
           description: Status message describing an error that occurred during the processing of the request
       additionalProperties: false
-      description: The response from the Order request
+      description: The minimal possible response for any request
     OrderRequest:
       title: Order Request
       required:
@@ -230,26 +179,6 @@ components:
           description: A list of all the recipients. It is required unless DeliveryTemplateId is null. If specified, the count must be either 1 or match Product.Quantity
       additionalProperties: false
       description: An object containing all the necessary information for ordering giftcards
-    Response:
-      type: object
-      properties:
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The minimal possible response for any request
     OrderProduct:
       title: Product (Order)
       required:
@@ -283,6 +212,77 @@ components:
           format: date-time
       additionalProperties: false
       description: An object containing information about a product
+    OrderVoucher:
+      title: Voucher (Order)
+      type: object
+      properties:
+        ID:
+          type:
+          - integer
+          - 'null'
+          description: The unique identifier of the voucher (used by resend and cancel endpoints)
+          format: int32
+        Code:
+          type:
+          - string
+          - 'null'
+          description: The redeemable code of the voucher. (This will be blanked unless ReturnCode is enabled in your B2B Account)
+        CVV:
+          type:
+          - string
+          - 'null'
+          description: A value used to verify the authenticity of the voucher (if applicable). (This will be blanked unless ReturnCode is enabled in your B2B Account)
+        RedeemLink:
+          type:
+          - string
+          - 'null'
+          description: The URL to redeem the voucher. (This will be blanked unless ReturnCode is enabled in your B2B Account)
+        Expires:
+          type: string
+          description: The time and date for when the voucher expires
+          format: date-time
+        Recipient:
+          $ref: '#/components/schemas/OrderRecipient'
+      additionalProperties: false
+      description: An object containing information about a voucher
+    OrderResponse:
+      title: Order Response
+      type: object
+      properties:
+        OrderUID:
+          type:
+          - string
+          - 'null'
+          description: A unique ID which will be connected to the resulting order
+        RefID:
+          type:
+          - string
+          - 'null'
+          description: The optional ID that you specified in the order request
+        Vouchers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/OrderVoucher'
+          description: The resulting vouchers for the placed order (contain data only for Sync request)
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response from the Order request
   securitySchemes:
     ApiToken:
       type: apiKey

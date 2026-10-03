@@ -111,23 +111,6 @@ components:
           description: Status message describing an error that occurred during the processing of the request
       additionalProperties: false
       description: The response from a Resend request
-    ResendRequest:
-      title: Resend Request
-      required:
-      - OrderUID
-      type: object
-      properties:
-        OrderUID:
-          type: string
-          description: The UID of the Order for the giftcards that you want to Resend
-        VoucherID:
-          type:
-          - integer
-          - 'null'
-          description: The ID of the specific Voucher in the given Order that you want to Resend. If null is given, we will attempt to Resend the entire Order to all its receivers
-          format: int32
-      additionalProperties: false
-      description: An object containing all the necessary information for resending a giftcard
     Response:
       type: object
       properties:
@@ -148,6 +131,23 @@ components:
           description: Status message describing an error that occurred during the processing of the request
       additionalProperties: false
       description: The minimal possible response for any request
+    ResendRequest:
+      title: Resend Request
+      required:
+      - OrderUID
+      type: object
+      properties:
+        OrderUID:
+          type: string
+          description: The UID of the Order for the giftcards that you want to Resend
+        VoucherID:
+          type:
+          - integer
+          - 'null'
+          description: The ID of the specific Voucher in the given Order that you want to Resend. If null is given, we will attempt to Resend the entire Order to all its receivers
+          format: int32
+      additionalProperties: false
+      description: An object containing all the necessary information for resending a giftcard
   securitySchemes:
     ApiToken:
       type: apiKey
