@@ -72,6 +72,54 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    CatalogueResponse:
+      title: Product Catalogue Response
+      type: object
+      properties:
+        Products:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CatalogueProduct'
+          description: The list of products
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response containing products
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The minimal possible response for any request
     CatalogueProduct:
       title: Product (Catalogue)
       type: object
@@ -147,54 +195,6 @@ components:
           description: Logo file url
       additionalProperties: false
       description: An object containing information about product
-    CatalogueResponse:
-      title: Product Catalogue Response
-      type: object
-      properties:
-        Products:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CatalogueProduct'
-          description: The list of products
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The response containing products
-    Response:
-      type: object
-      properties:
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The minimal possible response for any request
     CatalogueRequest:
       title: Product Catalogue Request
       type: object

@@ -84,33 +84,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ResendResponse:
-      title: Resend Response
-      type: object
-      properties:
-        NumberOfResends:
-          type:
-          - integer
-          - 'null'
-          description: Shows the number of successful Resends
-          format: int32
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The response from a Resend request
     Response:
       type: object
       properties:
@@ -148,6 +121,33 @@ components:
           format: int32
       additionalProperties: false
       description: An object containing all the necessary information for resending a giftcard
+    ResendResponse:
+      title: Resend Response
+      type: object
+      properties:
+        NumberOfResends:
+          type:
+          - integer
+          - 'null'
+          description: Shows the number of successful Resends
+          format: int32
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response from a Resend request
   securitySchemes:
     ApiToken:
       type: apiKey

@@ -67,6 +67,54 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    TemplateResponse:
+      title: Template Response
+      type: object
+      properties:
+        Templates:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TemplateItem'
+          description: The list of templates
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response containing available templates
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The minimal possible response for any request
     TemplateItem:
       title: Template Item
       type: object
@@ -112,54 +160,6 @@ components:
           description: Template plain text
       additionalProperties: false
       description: An object containing information about template
-    Response:
-      type: object
-      properties:
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The minimal possible response for any request
-    TemplateResponse:
-      title: Template Response
-      type: object
-      properties:
-        Templates:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/TemplateItem'
-          description: The list of templates
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The response containing available templates
   securitySchemes:
     ApiToken:
       type: apiKey

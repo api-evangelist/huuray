@@ -61,44 +61,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    BalanceItem:
-      title: Balance Item
-      type: object
-      properties:
-        Currency:
-          type:
-          - string
-          - 'null'
-          description: The currency as ISO alpha-3 code
-        Balance:
-          type: integer
-          description: The available balance in minor units
-          format: int64
-        Master:
-          type: boolean
-          description: An option that shows whether the currency is a master currency
-      additionalProperties: false
-      description: An object containing information about available balance for currency
-    Response:
-      type: object
-      properties:
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The minimal possible response for any request
     BalanceResponse:
       title: Balance Response
       type: object
@@ -127,6 +89,44 @@ components:
           description: Status message describing an error that occurred during the processing of the request
       additionalProperties: false
       description: The response containing available balances with currency
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The minimal possible response for any request
+    BalanceItem:
+      title: Balance Item
+      type: object
+      properties:
+        Currency:
+          type:
+          - string
+          - 'null'
+          description: The currency as ISO alpha-3 code
+        Balance:
+          type: integer
+          description: The available balance in minor units
+          format: int64
+        Master:
+          type: boolean
+          description: An option that shows whether the currency is a master currency
+      additionalProperties: false
+      description: An object containing information about available balance for currency
   securitySchemes:
     ApiToken:
       type: apiKey
