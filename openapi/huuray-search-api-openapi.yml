@@ -72,6 +72,26 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Response:
+      type: object
+      properties:
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The minimal possible response for any request
     SearchRecipient:
       title: Recipient (Search)
       type: object
@@ -98,97 +118,6 @@ components:
           description: The internal reference to an recipient in your own system
       additionalProperties: false
       description: An object containing information about a recipient
-    SearchResponse:
-      title: Search Response
-      type: object
-      properties:
-        OrderUID:
-          type:
-          - string
-          - 'null'
-          description: The unique identifier of the matched order
-        RefID:
-          type:
-          - string
-          - 'null'
-          description: The internal reference to the corresponding order in your own system
-        Vouchers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/SearchVoucher'
-          description: The list of the matching vouchers
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The response from a search
-    SearchVoucher:
-      title: Voucher (Search)
-      type: object
-      properties:
-        ID:
-          type:
-          - integer
-          - 'null'
-          description: The unique identifier of the voucher (required to show code in output)
-          format: int32
-        Code:
-          type:
-          - string
-          - 'null'
-          description: The redeemable code of the voucher
-        CVV:
-          type:
-          - string
-          - 'null'
-          description: A value used to verify the authenticity of the voucher (if applicable)
-        RedeemLink:
-          type:
-          - string
-          - 'null'
-          description: The URL to redeem the voucher
-        Expires:
-          type: string
-          description: The time and date for when the voucher expires
-          format: date-time
-        Recipient:
-          $ref: '#/components/schemas/SearchRecipient'
-      additionalProperties: false
-      description: An object containing information about a voucher
-    Response:
-      type: object
-      properties:
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The minimal possible response for any request
     SearchRequest:
       title: Search Request
       type: object
@@ -254,6 +183,77 @@ components:
           description: The internal reference to an recipient in your own system
       additionalProperties: false
       description: An object containing all the informations you can search for
+    SearchVoucher:
+      title: Voucher (Search)
+      type: object
+      properties:
+        ID:
+          type:
+          - integer
+          - 'null'
+          description: The unique identifier of the voucher (required to show code in output)
+          format: int32
+        Code:
+          type:
+          - string
+          - 'null'
+          description: The redeemable code of the voucher
+        CVV:
+          type:
+          - string
+          - 'null'
+          description: A value used to verify the authenticity of the voucher (if applicable)
+        RedeemLink:
+          type:
+          - string
+          - 'null'
+          description: The URL to redeem the voucher
+        Expires:
+          type: string
+          description: The time and date for when the voucher expires
+          format: date-time
+        Recipient:
+          $ref: '#/components/schemas/SearchRecipient'
+      additionalProperties: false
+      description: An object containing information about a voucher
+    SearchResponse:
+      title: Search Response
+      type: object
+      properties:
+        OrderUID:
+          type:
+          - string
+          - 'null'
+          description: The unique identifier of the matched order
+        RefID:
+          type:
+          - string
+          - 'null'
+          description: The internal reference to the corresponding order in your own system
+        Vouchers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SearchVoucher'
+          description: The list of the matching vouchers
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response from a search
   securitySchemes:
     ApiToken:
       type: apiKey

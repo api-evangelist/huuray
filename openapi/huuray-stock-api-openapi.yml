@@ -78,33 +78,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    StockResponse:
-      title: Stock Response
-      type: object
-      properties:
-        Stock:
-          type:
-          - integer
-          - 'null'
-          description: The full count of giftcards found
-          format: int32
-        Status:
-          type: integer
-          description: HttpStatus code for the response
-          format: int32
-        Message:
-          type:
-          - string
-          - 'null'
-          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
-          deprecated: true
-        StatusMessage:
-          type:
-          - string
-          - 'null'
-          description: Status message describing an error that occurred during the processing of the request
-      additionalProperties: false
-      description: The response containing stock information for a product
     StockRequest:
       title: Stock Request
       required:
@@ -142,6 +115,33 @@ components:
           description: Status message describing an error that occurred during the processing of the request
       additionalProperties: false
       description: The minimal possible response for any request
+    StockResponse:
+      title: Stock Response
+      type: object
+      properties:
+        Stock:
+          type:
+          - integer
+          - 'null'
+          description: The full count of giftcards found
+          format: int32
+        Status:
+          type: integer
+          description: HttpStatus code for the response
+          format: int32
+        Message:
+          type:
+          - string
+          - 'null'
+          description: Deprecated, use StatusMessage instead. Error message describing an error that occurred during the processing of the request
+          deprecated: true
+        StatusMessage:
+          type:
+          - string
+          - 'null'
+          description: Status message describing an error that occurred during the processing of the request
+      additionalProperties: false
+      description: The response containing stock information for a product
   securitySchemes:
     ApiToken:
       type: apiKey
